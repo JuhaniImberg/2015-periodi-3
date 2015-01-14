@@ -1,4 +1,5 @@
-# tila
+tila
+====
 
 Programming language interpreter for [Aineopintojen harjoitustyö: Tietorakenteet ja algoritmit](https://www.cs.helsinki.fi/courses/58161/2015/k/a/1).
 
@@ -8,3 +9,17 @@ Programming language interpreter for [Aineopintojen harjoitustyö: Tietorakentee
     doc     Documentation
     cmake   Additional CMake modules
     build   For building
+
+building
+--------
+
+    cd build
+    cmake ..
+    make
+
+testing
+-------
+
+    cd build
+    cmake ..
+    make all test
