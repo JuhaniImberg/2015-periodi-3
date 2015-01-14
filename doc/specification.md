@@ -17,11 +17,11 @@ Targets
 Algorithms and data structures
 ------------------------------
 
-| Data structure | For                         | Time Complexity     | Space Complexity |
-|----------------|-----------------------------|---------------------|------------------|
-| Hash Table     | Scoping, use in programming | CRUD `O(1)`         | `O(n)`           |
-| Dynamic Array  | Use in programming          | CUD `O(n)` R `O(1)` | `O(n)`           |
-| Stack          | Programs run on a stack     | `O(1)`              | `O(n)`           |
+| Data structure | For                         | Time Complexity | Space Complexity |
+|----------------|-----------------------------|-----------------|------------------|
+| Hash Table     | Scoping, use in programming | mostly `O(1)`   | `O(n)`           |
+| Dynamic Array  | Use in programming          | mostly `O(n)`   | `O(n)`           |
+| Stack          | Programs run on a stack     | `O(1)`          | `O(n)`           |
 
 | Algorithm      | For                                 | Time Complexity | Space Complexity |
 |----------------|-------------------------------------|-----------------|------------------|
