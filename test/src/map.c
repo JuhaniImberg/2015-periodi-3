@@ -50,18 +50,21 @@ START_TEST (test_map_resize)
     struct Map *map = Map_new();
     const int testsize = 190;
     unsigned int original_size = map->allocated_size;
-    char str[9];
+    char strs[testsize][9];
     for(int i = 0; i < testsize; i++) {
-        sprintf(str, "%i", i);
-        Map_put(map, str, (void *)str);
+        sprintf(strs[i], "%i", i);
+        Map_put(map, strs[i], (void *)strs[i]);
     }
     ck_assert_int_eq(map->size, testsize);
     ck_assert_int_gt(map->allocated_size, original_size);
+    for(int i = 0; i < testsize; i++) {
+        ck_assert(Map_contains(map, strs[i]));
+    }
     Map_delete(map);
 }
 END_TEST
 
-Suite* map_suite(void) {
+Suite *map_suite() {
     Suite *suite = suite_create("map_suite");
     TCase *tcase = tcase_create("case");
 

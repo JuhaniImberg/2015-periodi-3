@@ -43,6 +43,7 @@ void Map_remove(struct Map *map, const char *key) {
             MapEntry_delete(node);
             return;
         }
+        node = node->next;
     }
 }
 
@@ -101,12 +102,16 @@ void Map_resize(struct Map *map, unsigned int new_size) {
     for(unsigned int i = 0; i < current_size; i++) {
         Map_put_raw(map, entrys[i]->key, entrys[i]->hash, entrys[i]->value);
     }
+    for(unsigned int i = 0; i < current_size; i++) {
+        free(entrys[i]);
+    }
     free(entrys);
 }
 
 void Map_delete(struct Map *map) {
     struct MapEntry** entrys = Map_entrys(map);
-    for(unsigned int i = 0; i < map->size; i++) {
+    unsigned int size = map->size;
+    for(unsigned int i = 0; i < size; i++) {
         MapEntry_delete(entrys[i]);
     }
     free(entrys);

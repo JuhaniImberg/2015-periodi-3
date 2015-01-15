@@ -6,6 +6,7 @@
 
 #include "tila.h"
 
-#include "map_test.h"
+Suite *map_suite();
+Suite *vector_suite();
 
 #endif
