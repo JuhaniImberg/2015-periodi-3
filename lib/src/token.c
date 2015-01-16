@@ -11,8 +11,17 @@ struct Token *Token_new(unsigned int start, unsigned int end,
     return token;
 }
 
-void Token_print(struct Token *token, const char src) {
-    //printf("%4d:%-4d %15s %.*s\n", token->line, token->column, token->type);
+unsigned int Token_length(struct Token *token) {
+    return token->end - token->start;
+}
+
+void Token_print(struct Token *token, const char *src) {
+    printf("%4d:%-4d %15s %.*s\n",
+           token->line,
+           token->column,
+           token->type->name,
+           token->end - token->start,
+           src + token->start);
 }
 
 void Token_delete(struct Token *token) {

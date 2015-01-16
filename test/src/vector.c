@@ -50,6 +50,20 @@ START_TEST (test_vector_resize)
 }
 END_TEST
 
+START_TEST (test_vector_insert)
+{
+    struct Vector *vector = Vector_new();
+    Vector_add(vector, "start");
+    Vector_add(vector, "end");
+    Vector_insert(vector, 1, "middle");
+    ck_assert_int_eq(vector->size, 3);
+    ck_assert(strcmp(Vector_get(vector, 0), "start") == 0);
+    ck_assert(strcmp(Vector_get(vector, 1), "middle") == 0);
+    ck_assert(strcmp(Vector_get(vector, 2), "end") == 0);
+    Vector_delete(vector);
+}
+END_TEST
+
 Suite *vector_suite() {
     Suite *suite = suite_create("vector_suite");
     TCase *tcase = tcase_create("case");
@@ -57,6 +71,7 @@ Suite *vector_suite() {
     tcase_add_test(tcase, test_vector_new);
     tcase_add_test(tcase, test_vector_basic);
     tcase_add_test(tcase, test_vector_resize);
+    tcase_add_test(tcase, test_vector_insert);
 
     suite_add_tcase(suite, tcase);
     return suite;
