@@ -2,7 +2,7 @@ enable_testing()
 find_package(Check REQUIRED)
 
 file(GLOB TEST_SOURCE_FILES src/*.c)
-set(LIBS ${LIBS} tila ${CHECK_LIBRARY})
+set(LIBS ${LIBS} tila ${CHECK_LIBRARY} m rt pthread)
 set(INCLUDES ${INCLUDES} include ../lib/include ${CHECK_INCLUDE_DIR})
 
 add_executable(tilatest ${TEST_SOURCE_FILES})
