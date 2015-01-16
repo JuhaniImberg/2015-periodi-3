@@ -39,7 +39,11 @@ struct TokenType {
     regex_t* regex;
 };
 
-static const struct TokenType token_types[] = {
+struct TTMatcher {
+    struct Vector *types;
+};
+
+static const struct TokenType token_types_raw[] = {
     {T_LPAREN, "lparen", "\\(", NULL},
     {T_RPAREN, "rparen", "\\)", NULL},
     {T_LBRACKET, "lbracket", "\\[", NULL},
@@ -62,10 +66,12 @@ static const struct TokenType token_types[] = {
     {T_COND, "cond", "\\?", NULL},
     {T_NOTCOND, "notcond", "\\!\\?", NULL},
     {T_STRING, "string", "\".*\"", NULL},
-    {T_IDENTIFIER, "identifier", "[A-Za-z_][A-Za-z0-9_]*", NULL}
+    {T_IDENTIFIER, "identifier", "[A-Za-z_][A-Za-z0-9_]*", NULL},
+    {T_NUMBER, "number", "[0-9]+", NULL}
 };
 
-void TokenType_initall();
-void TokenType_match(struct Token *token, char *src);
+struct TTMatcher *TTMatcher_new();
+void TTMatcher_match(struct TTMatcher *tt, struct Token *token, char *src);
+void TTMatcher_delete(struct TTMatcher *tt);
 
 #endif

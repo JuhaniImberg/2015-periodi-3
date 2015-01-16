@@ -14,3 +14,13 @@ unsigned long elf_hash(const char *key) {
     }
     return h;
 }
+
+bool t_is_digit(char c) {
+    return ('0' <= c && c <= '9');
+}
+
+bool t_is_alpha(char c) {
+    return (('A' <= c && c <= 'Z') ||
+            ('a' <= c && c <= 'z') ||
+            c == '_');
+}

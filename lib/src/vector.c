@@ -34,7 +34,7 @@ void *Vector_pop(struct Vector *vector) {
         return NULL;
     }
     void *data = vector->data[vector->size - 1];
-    vector->data[vector->size - 1] = NULL;
+    vector->data[--vector->size] = NULL;
     return data;
 }
 

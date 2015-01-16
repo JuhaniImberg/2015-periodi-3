@@ -1,8 +1,14 @@
 #include "tila.h"
 
-const char *src = "HELLO WORLD ";
+char *src = "hello = 32 + 12";
 
 int main() {
-    printf("%s %lu", src, elf_hash(src));
+    struct Tokenizer *ti = Tokenizer_new(src);
+    Tokenizer_tokenize(ti);
+    unsigned int len = Vector_size(ti->tokens);
+    for(unsigned int i = 0; i < len; i++) {
+        Token_print((struct Token *)Vector_get(ti->tokens, i), src);
+    }
+    Tokenizer_delete(ti);
     return 0;
 }
