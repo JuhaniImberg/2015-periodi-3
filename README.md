@@ -1,4 +1,4 @@
-tila
+tila [![Build Status](https://travis-ci.org/JuhaniImberg/tila.svg?branch=master)](https://travis-ci.org/JuhaniImberg/tila)
 ====
 
 Programming language interpreter for [Aineopintojen harjoitustyö: Tietorakenteet ja algoritmit](https://www.cs.helsinki.fi/courses/58161/2015/k/a/1).

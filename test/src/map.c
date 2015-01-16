@@ -48,16 +48,16 @@ END_TEST
 START_TEST (test_map_resize)
 {
     struct Map *map = Map_new();
-    const int testsize = 190;
+    unsigned int testsize = 190;
     unsigned int original_size = map->allocated_size;
     char strs[testsize][9];
-    for(int i = 0; i < testsize; i++) {
+    for(unsigned int i = 0; i < testsize; i++) {
         sprintf(strs[i], "%i", i);
         Map_put(map, strs[i], (void *)strs[i]);
     }
     ck_assert_int_eq(map->size, testsize);
-    ck_assert_int_gt(map->allocated_size, original_size);
-    for(int i = 0; i < testsize; i++) {
+    ck_assert(map->allocated_size > original_size);
+    for(unsigned int i = 0; i < testsize; i++) {
         ck_assert(Map_contains(map, strs[i]));
     }
     Map_delete(map);
