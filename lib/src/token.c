@@ -16,12 +16,19 @@ unsigned int Token_length(struct Token *token) {
 }
 
 void Token_print(struct Token *token, const char *src) {
-    printf("%4d:%-4d %15s %.*s\n",
+    printf("|%4d:%-4d| %-15s | %.*s\n",
            token->line,
            token->column,
            token->type->name,
-           token->end - token->start,
-           src + token->start);
+           token->type->id == T_EOL ? 2 : token->end - token->start,
+           token->type->id == T_EOL ? "\\n" : src + token->start);
+}
+
+int Token_indent_length(struct Token *token) {
+    if(token->type->id != T_INDENT) {
+        return -1;
+    }
+    return token->end - token->start;
 }
 
 void Token_delete(struct Token *token) {

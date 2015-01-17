@@ -65,6 +65,11 @@ void Tokenizer_tokenize(struct Tokenizer *ti) {
                 }
             }
         }
+        if(ti->in_comment && current != '\n') {
+            ti->column++;
+            ti->pos++;
+            continue;
+        }
         if(ti->in_string && current != '\"') {
             Tokenizer_add_to_last(ti);
             ti->column++;
@@ -72,6 +77,9 @@ void Tokenizer_tokenize(struct Tokenizer *ti) {
             continue;
         }
         switch(current) {
+        case '#':
+            ti->in_comment = true;
+            break;
         case '\"':
             if(!ti->in_string) {
                 Tokenizer_add_new(ti);
@@ -81,12 +89,22 @@ void Tokenizer_tokenize(struct Tokenizer *ti) {
             break;
         case '\n':
             Tokenizer_add_new(ti);
-            ti->line++;
-            ti->column = -1;
-            break;
-        case ' ':
+            Tokenizer_add_to_last(ti);
             Tokenizer_add_new(ti);
-            Tokenizer_move_last(ti);
+            ti->line++;
+            ti->column = 0;
+            ti->in_comment = false;
+            break;
+        case ' ': // count indent plz
+            if(last_len > 0 && last_char == ' ') {
+                Tokenizer_add_to_last(ti);
+            } else if(ti->column == 1) {
+                Tokenizer_add_new(ti);
+                Tokenizer_add_to_last(ti);
+            } else {
+                Tokenizer_add_new(ti);
+                Tokenizer_move_last(ti);
+            }
             break;
         case '?':
             if(last_len == 1 && last_char == '!') {

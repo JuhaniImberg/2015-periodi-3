@@ -6,7 +6,10 @@
 #include <string.h>
 #include <stdbool.h>
 #include <regex.h>
-#include "errno.h"
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/mman.h>
+#include <errno.h>
 
 #include "macros.h"
 #include "util.h"

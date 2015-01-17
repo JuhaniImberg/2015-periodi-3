@@ -29,6 +29,8 @@ enum TokenTypeEnum {
     T_STRING,     // "content"
     T_IDENTIFIER, // name
     T_NUMBER,     // 3.14
+    T_INDENT,     //
+    T_EOL,        // \n
     T_NONE
 };
 
@@ -67,7 +69,9 @@ static const struct TokenType token_types_raw[] = {
     {T_NOTCOND, "notcond", "\\!\\?", NULL},
     {T_STRING, "string", "\".*\"", NULL},
     {T_IDENTIFIER, "identifier", "[A-Za-z_][A-Za-z0-9_]*", NULL},
-    {T_NUMBER, "number", "[0-9]+", NULL}
+    {T_NUMBER, "number", "[0-9]+", NULL},
+    {T_INDENT, "indent", " +", NULL},
+    {T_EOL, "eol", "\n", NULL}
 };
 
 struct TTMatcher *TTMatcher_new();

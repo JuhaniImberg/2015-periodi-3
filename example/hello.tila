@@ -1,0 +1,4 @@
+# this is comment
+
+main = (args) ->
+  print("hello world")

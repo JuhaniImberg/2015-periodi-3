@@ -11,6 +11,7 @@ struct Token {
 struct Token *Token_new(unsigned int start, unsigned int end,
                         unsigned int line, unsigned int column);
 unsigned int Token_length(struct Token *token);
+int Token_indent_length(struct Token *token);
 void Token_print(struct Token *token, const char *src);
 void Token_delete(struct Token *token);
 
