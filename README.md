@@ -36,7 +36,7 @@ Testing
 [travis-link]: https://travis-ci.org/JuhaniImberg/tila
 [coveralls-img]: https://img.shields.io/coveralls/JuhaniImberg/tila.svg?style=flat-square
 [coveralls-link]: https://coveralls.io/r/JuhaniImberg/tila?branch=master
-[docs-img]: https://img.shields.io/badge/docs-yep-green.svg?style=flat-square
+[docs-img]: https://img.shields.io/badge/docs-yep-brightgreen.svg?style=flat-square
 [docs-link]: http://ahdoc.pieso.me/JuhaniImberg/tila/index.html
 [cmake]: http://www.cmake.org/
 [check]: http://check.sourceforge.net/
