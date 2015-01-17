@@ -12,6 +12,7 @@ struct Vector {
 struct Vector *Vector_new();
 unsigned int Vector_size(struct Vector *vector);
 bool Vector_empty(struct Vector *vector);
+void Vector_clear(struct Vector *vector);
 void Vector_set(struct Vector *vector, unsigned int pos, void *data);
 void Vector_insert(struct Vector *vector, unsigned int pos, void *data);
 void *Vector_get(struct Vector *vector, unsigned int pos);

@@ -87,6 +87,10 @@ void Vector_insert(struct Vector *vector, unsigned int pos, void *data) {
     vector->size++;
 }
 
+void Vector_clear(struct Vector *vector) {
+    vector->size = 0;
+}
+
 void Vector_delete(struct Vector *vector) {
     free(vector->data);
     free(vector);
