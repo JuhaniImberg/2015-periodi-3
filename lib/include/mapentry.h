@@ -2,12 +2,11 @@
 #define MAPENTRY_H
 
 /**
- * @brief Internal datastructure of the Map
- * @see Map Map
+ * @brief Internal datastructure of the @link //ref/c/tag/Map @/link
  */
 struct MapEntry {
     unsigned long hash;
-    const char *key;
+    void *key;
     void *value;
     struct MapEntry *next;
     struct MapEntry *prev;
@@ -19,7 +18,7 @@ struct MapEntry {
  * @param hash The hash value of the key
  * @param value Pointer to the data
  */
-struct MapEntry *MapEntry_new(const char *key, unsigned long hash, void *value);
+struct MapEntry *MapEntry_new(void *key, unsigned long hash, void *value);
 
 /**
  * @brief Sets the value of the given MapEntry

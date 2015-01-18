@@ -5,22 +5,31 @@ struct Map *Map_new() {
     map->size = 0;
     map->allocated_size = 2<<6;
     map->data = calloc(2<<6, sizeof(struct MapEntry));
+    map->hash_function = &string_hash;
+    map->equals_function = &string_equals;
     return map;
 }
 
-unsigned int Map_hash(struct Map *map, const char *key) {
-    return elf_hash(key) % map->allocated_size;
+void Map_set_operations(struct Map *map,
+                        unsigned long (*hash_function)(void *),
+                        bool (*equals_function)(void *, void *)) {
+    map->hash_function = hash_function;
+    map->equals_function = equals_function;
 }
 
-bool Map_contains(struct Map *map, const char *key) {
+unsigned int Map_hash(struct Map *map, void *key) {
+    return map->hash_function(key) % map->allocated_size;
+}
+
+bool Map_contains(struct Map *map, void *key) {
     return Map_get(map, key) != NULL;
 }
 
-void *Map_get(struct Map *map, const char *key) {
+void *Map_get(struct Map *map, void *key) {
     unsigned int hash = Map_hash(map, key);
     struct MapEntry *node = map->data[hash];
     while(node != NULL) {
-        if(strcmp(key, node->key) == 0) {
+        if(map->equals_function(key, node->key)) {
             return node->value;
         }
         node = node->next;
@@ -28,13 +37,13 @@ void *Map_get(struct Map *map, const char *key) {
     return NULL;
 }
 
-void Map_remove(struct Map *map, const char *key) {
-    unsigned long hash = elf_hash(key);
+void Map_remove(struct Map *map, void *key) {
+    unsigned long hash = map->hash_function(key);
     unsigned int local = hash % map->allocated_size;
     struct MapEntry *node = map->data[local];
     while(node != NULL) {
         if(node->hash == hash) {
-            if(node->prev == NULL) {
+            if(node->prev == NULL && map->equals_function(key, node->key)) {
                 map->data[local] = node->next;
             } else {
                 node->prev->next = node->next;
@@ -47,7 +56,7 @@ void Map_remove(struct Map *map, const char *key) {
     }
 }
 
-void Map_put_raw(struct Map *map, const char* key, unsigned long hash, void *value) {
+void Map_put_raw(struct Map *map, void *key, unsigned long hash, void *value) {
     unsigned int local = hash % map->allocated_size;
     struct MapEntry *old = map->data[local];
     if(old == NULL) {
@@ -58,7 +67,7 @@ void Map_put_raw(struct Map *map, const char* key, unsigned long hash, void *val
             return;
         }
         while(old->next != NULL) {
-            if(old->hash == hash) {
+            if(old->hash == hash && map->equals_function(key, old->key)) {
                 MapEntry_set(old, value);
                 return;
             }
@@ -74,8 +83,8 @@ void Map_put_raw(struct Map *map, const char* key, unsigned long hash, void *val
     return;
 }
 
-void Map_put(struct Map *map, const char *key, void *value) {
-    Map_put_raw(map, key, elf_hash(key), value);
+void Map_put(struct Map *map, void *key, void *value) {
+    Map_put_raw(map, key, map->hash_function(key), value);
 }
 
 struct MapEntry** Map_entrys(struct Map *map) {

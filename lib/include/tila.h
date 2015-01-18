@@ -20,5 +20,9 @@
 #include "tokentype.h"
 #include "token.h"
 #include "tokenizer.h"
+#include "node.h"
+#include "environment.h"
+#include "parser.h"
+
 
 #endif
