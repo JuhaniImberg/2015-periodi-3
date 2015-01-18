@@ -1,6 +1,0 @@
-{
-  "name": "tila",
-  "root": "./build/doc/",
-  "clean_urls": true,
-  "error_page": "error.html"
-}
