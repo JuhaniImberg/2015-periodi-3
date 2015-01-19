@@ -44,12 +44,43 @@ struct Parser *Parser_new(struct Vector *tokens);
  */
 void Parser_add_precedence(struct Parser *parser, enum TokenTypeEnum id,
                            int precedence);
+
+/**
+ * @brief Adds a infix parser to the parser
+ * @param id The TokenTypeEnum type to have the infix parser associated with
+ * @param infix The infix parser function
+ */
 void Parser_add_infix(struct Parser *parser, enum TokenTypeEnum id,
                       InfixParser infix);
+
+/**
+ * @brief Adds a prefix parser to the parser
+ * @param id The TokenTypeEnum type to have the prefix parser associated with
+ * @param prefix The prefix parser function
+ */
 void Parser_add_prefix(struct Parser *parser, enum TokenTypeEnum id,
                       InfixParser prefix);
+
+/**
+ * @brief Parses the tokens to form a node expression that's made out of
+ *        prefixes and infixes.
+ * @param precedence Infix parsers that have a higher precedence than this
+ *                   will be added to the node
+ */
 struct Node *Parser_parse_node(struct Parser *parser, int precedence);
+
+/**
+ * @brief Is the current token of the type id
+ * @param id The type that the token is checked against
+ * @returns True if the type matches
+ */
 bool Parser_is_next(struct Parser *parser, enum TokenTypeEnum id);
+
+/**
+ * @brief If the current token is of the type id, it gets consumed
+ * @param id The type that the token is checked against
+ * @returns True if the type matches
+ */
 bool Parser_match(struct Parser *parser, enum TokenTypeEnum id);
 struct Token *Parser_require(struct Parser *parser, enum TokenTypeEnum id);
 struct Token *Parser_consume(struct Parser *parser);

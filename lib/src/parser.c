@@ -38,13 +38,12 @@ void Parser_add_precedence(struct Parser *parser, enum TokenTypeEnum i, int v) {
 struct Node *Parser_parse_node(struct Parser *parser, int precedence) {
     struct Token *token = Parser_consume(parser);
     PrefixParser prefix = (PrefixParser)Map_get(parser->prefix, &token->type->id);
-    if(prefix == NULL) {
-        ERROR(1, "Unexpected token %d:%d", token->line, token->column)
-    }
+    ERROR(prefix == NULL, "Unexpected token %d:%d", token->line, token->column)
     struct Node *left = prefix(parser, token);
     while(precedence < Parser_precedence(parser)) {
         token = Parser_consume(parser);
         InfixParser infix = (InfixParser)Map_get(parser->infix, &token->type->id);
+        ERROR(infix == NULL, "Unexpected token %d:%d", token->line, token->column)
         left = infix(parser, left, token);
     }
     return left;
