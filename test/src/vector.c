@@ -85,6 +85,8 @@ START_TEST (test_vector_stack)
     ck_assert(strcmp(Vector_pop(vector), "1") == 0);
     ck_assert(strcmp(Vector_pop(vector), "2") == 0);
     ck_assert(strcmp(Vector_pop(vector), "3") == 0);
+    ck_assert(Vector_pop(vector) == NULL);
+    ck_assert(Vector_top(vector) == NULL);
     Vector_delete(vector);
 }
 END_TEST

@@ -64,6 +64,23 @@ START_TEST (test_map_resize)
 }
 END_TEST
 
+START_TEST (test_map_intkey)
+{
+    struct Map *map = Map_new();
+    Map_set_operations(map, number_hash, number_equals);
+    int key1, key2, value1, value2;
+    key1 = 3;
+    key2 = 7;
+    value1 = 10;
+    value2 = 20;
+    Map_put(map, ((void *)&key1), ((void *)&value1));
+    Map_put(map, ((void *)&key2), ((void *)&value2));
+    ck_assert_int_eq(*(int *)Map_get(map, ((void *)&key1)), value1);
+    ck_assert_int_eq(*(int *)Map_get(map, ((void *)&key2)), value2);
+    Map_delete(map);
+}
+END_TEST
+
 Suite *map_suite() {
     Suite *suite = suite_create("map_suite");
     TCase *tcase = tcase_create("case");
@@ -72,6 +89,7 @@ Suite *map_suite() {
     tcase_add_test(tcase, test_map_light);
     tcase_add_test(tcase, test_map_replace);
     tcase_add_test(tcase, test_map_resize);
+    tcase_add_test(tcase, test_map_intkey);
 
     suite_add_tcase(suite, tcase);
     return suite;
