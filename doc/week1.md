@@ -1,5 +1,5 @@
-Week 1
-======
+Week 1 - Juhani Imberg
+======================
 
 What did I learn this week?
 ---------------------------
