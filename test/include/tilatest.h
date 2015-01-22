@@ -8,5 +8,7 @@
 
 Suite *map_suite();
 Suite *vector_suite();
+Suite *util_suite();
+Suite *tokenizer_suite();
 
 #endif

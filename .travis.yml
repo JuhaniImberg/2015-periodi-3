@@ -15,7 +15,8 @@ before_script:
 - cd build
 script:
 - cmake -DCMAKE_BUILD_TYPE=Debug ..
-- make all test
+- make all
+- ctest -V
 after_success:
 - cd lib
 - lcov --directory . --capture --output-file coverage.info
