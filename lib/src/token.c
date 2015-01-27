@@ -8,6 +8,7 @@ struct Token *Token_new(unsigned int start, unsigned int end,
     token->line = line;
     token->column = column;
     token->type = NULL;
+    token->content = NULL;
     return token;
 }
 
@@ -31,6 +32,21 @@ int Token_indent_length(struct Token *token) {
     return token->end - token->start;
 }
 
+char *Token_content(struct Token *token, const char *src) {
+    if(token->content != NULL) {
+        return token->content;
+    }
+    unsigned int len = Token_length(token);
+    char *str = (char *)malloc(sizeof(char) * (len + 1));
+    strncpy(str, src + token->start, len);
+    str[len] = '\0';
+    token->content = str;
+    return str;
+}
+
 void Token_delete(struct Token *token) {
+    if(token->content != NULL) {
+        free(token->content);
+    }
     free(token);
 }

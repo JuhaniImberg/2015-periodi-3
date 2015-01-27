@@ -97,6 +97,17 @@ START_TEST (test_tokenizer_long_operators)
 }
 END_TEST
 
+START_TEST (test_token_content)
+{
+    char *src = "hello world";
+    struct Tokenizer *ti = Tokenizer_new(src);
+    Tokenizer_tokenize(ti);
+    ck_assert(strcmp(Token_content(Vector_get(ti->tokens, 0), src), "hello") == 0);
+    ck_assert(strcmp(Token_content(Vector_get(ti->tokens, 1), src), "world") == 0);
+    Tokenizer_delete(ti);
+}
+END_TEST
+
 Suite *tokenizer_suite() {
     Suite *suite = suite_create("tokenizer_suite");
     TCase *tcase = tcase_create("case");
@@ -109,6 +120,9 @@ Suite *tokenizer_suite() {
     tcase_add_test(tcase, test_tokenizer_indent);
     tcase_add_test(tcase, test_tokenizer_operators);
     tcase_add_test(tcase, test_tokenizer_long_operators);
+
+    tcase_add_test(tcase, test_token_content);
+
 
     suite_add_tcase(suite, tcase);
     return suite;

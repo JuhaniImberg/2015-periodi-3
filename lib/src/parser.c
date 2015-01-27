@@ -1,4 +1,5 @@
 #include "tila.h"
+#include "subparsers.h"
 
 struct Parser *Parser_new(struct Vector *tokens) {
     struct Parser *parser = (struct Parser *)malloc(sizeof(struct Parser));
@@ -10,6 +11,8 @@ struct Parser *Parser_new(struct Vector *tokens) {
     Map_set_operations(parser->prefix, number_hash, number_equals);
     Map_set_operations(parser->infix, number_hash, number_equals);
     Map_set_operations(parser->precedences, number_hash, number_equals);
+
+    Parser_add_prefix(parser, T_IDENTIFIER, identifier_parser);
 
     Parser_add_precedence(parser, T_SET, 1);
     Parser_add_precedence(parser, T_FN, 1);
@@ -33,6 +36,16 @@ struct Parser *Parser_new(struct Vector *tokens) {
 
 void Parser_add_precedence(struct Parser *parser, enum TokenTypeEnum i, int v) {
     Map_put(parser->precedences, &i, &v);
+}
+
+void Parser_add_prefix(struct Parser *parser, enum TokenTypeEnum type,
+                       PrefixParser prefix) {
+    Map_put(parser->prefix, &type, prefix);
+}
+
+void Parser_add_infix(struct Parser *parser, enum TokenTypeEnum type,
+                      InfixParser infix) {
+    Map_put(parser->infix, &type, infix);
 }
 
 struct Node *Parser_parse_node(struct Parser *parser, int precedence) {

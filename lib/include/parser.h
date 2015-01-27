@@ -23,13 +23,13 @@ struct Parser {
  * @brief A prefix parser
  */
 typedef struct Node *(*PrefixParser)(struct Parser *parser,
-                                      struct Token *token);
+                                     struct Token *token);
 /**
  * @brief An infix parser
  */
 typedef struct Node *(*InfixParser)(struct Parser *parser,
-                                     struct Node *left,
-                                     struct Token *token);
+                                    struct Node *left,
+                                    struct Token *token);
 
 /**
  * @brief Creates a new parser
@@ -47,19 +47,19 @@ void Parser_add_precedence(struct Parser *parser, enum TokenTypeEnum id,
 
 /**
  * @brief Adds a infix parser to the parser
- * @param id The TokenTypeEnum type to have the infix parser associated with
+ * @param type The TokenTypeEnum type to have the infix parser associated with
  * @param infix The infix parser function
  */
-void Parser_add_infix(struct Parser *parser, enum TokenTypeEnum id,
+void Parser_add_infix(struct Parser *parser, enum TokenTypeEnum type,
                       InfixParser infix);
 
 /**
  * @brief Adds a prefix parser to the parser
- * @param id The TokenTypeEnum type to have the prefix parser associated with
+ * @param type The TokenTypeEnum type to have the prefix parser associated with
  * @param prefix The prefix parser function
  */
-void Parser_add_prefix(struct Parser *parser, enum TokenTypeEnum id,
-                      InfixParser prefix);
+void Parser_add_prefix(struct Parser *parser, enum TokenTypeEnum type,
+                       PrefixParser prefix);
 
 /**
  * @brief Parses the tokens to form a node expression that's made out of

@@ -10,6 +10,7 @@
  */
 struct Environment {
     struct Map *nodes;
+    char *src;
 };
 
 struct Environment *Environment_new();
