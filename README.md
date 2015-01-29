@@ -3,7 +3,7 @@ tila [![Build Status][travis-img]][travis-link] [![Coverage Status][coveralls-im
 
 
 | [Automated tests][travis-link] | [Code coverage status][coveralls-link] | [Rendered documentation][docs-link] |
-|--------------------------------|–---------------------------------------|-------------------------------------|
+| ------------------------------ | -------------------------------------- | ----------------------------------- |
 
 Programming language interpreter for [Aineopintojen harjoitustyö: Tietorakenteet ja algoritmit][course-link].
 
