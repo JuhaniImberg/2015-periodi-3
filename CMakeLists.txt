@@ -10,6 +10,11 @@ endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules")
 
+add_custom_target(docs
+                  COMMAND headerdoc2html -Ejo docs "${CMAKE_SOURCE_DIR}/lib/include"
+                  COMMAND gatherheaderdoc docs index.html
+                  COMMENT "Generates HeaderDoc documentation")
+
 add_subdirectory(lib)
 add_subdirectory(cmd)
 add_subdirectory(test)

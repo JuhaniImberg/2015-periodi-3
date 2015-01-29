@@ -27,20 +27,20 @@ Folder structure
 ----------------
 
     .
-    ├── build        # For building the project
+    ├── build          For building the project
     ├── cmake
-    │   └── Modules  # Additional modules for CMake
-    ├── cmd          # The command line client to tila
-    │   ├── include  # Includes for the header files for the cmd
-    │   └── src      # The source files
-    ├── doc          # Manually written documentation (week reports etc)
-    ├── example      # Examples of the tila language
-    ├── lib          # Sourcecode for libtila, basically all of the actual code is here
-    │   ├── include  # Headers and HeaderDoc documentation for the library
-    │   └── src      # The source files
-    └── test         # Folder for all of the tests
-        ├── include  # Headers for the tests
-        └── src      # Actual tests
+    │   └── Modules    Additional modules for CMake
+    ├── cmd            The command line client to tila
+    │   ├── include    Includes for the header files for the cmd
+    │   └── src        The source files
+    ├── doc            Manually written documentation (week reports etc)
+    ├── example        Examples of the tila language
+    ├── lib            Sourcecode for libtila, basically all of the actual code is here
+    │   ├── include    Headers and HeaderDoc documentation for the library
+    │   └── src        The source files
+    └── test           Folder for all of the tests
+        ├── include    Headers for the tests
+        └── src        Actual tests
 
 Dependencies
 ------------
@@ -54,13 +54,24 @@ Building
     cmake ..
     make
 
+The executable is now in `build/cmd/tila`
+
 Testing
 -------
 
     cd build
     cmake ..
-    make all test
+    make
+    ctest --output-on-failure .
 
+Rendered documentation
+----------------------
+
+    cd build
+    cmake ..
+    make docs
+
+The documentation is now in `build/docs`
 
 [course-link]: https://www.cs.helsinki.fi/courses/58161/2015/k/a/1
 [travis-img]: https://img.shields.io/travis/JuhaniImberg/tila.svg?style=flat-square

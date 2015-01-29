@@ -5,7 +5,7 @@
 
 all: pandoc
 
-pandoc: specification.pdf
+pandoc: specification.pdf week1.pdf week2.pdf
 
 clean:
 	rm *.pdf

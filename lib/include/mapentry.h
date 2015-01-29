@@ -3,6 +3,9 @@
 
 /**
  * @brief Internal datastructure of the @link //ref/c/tag/Map @/link
+ * @field hash The hash code of the key
+ * @field key A pointer to the key
+ * @field value A pointer to the value
  */
 struct MapEntry {
     unsigned long hash;
