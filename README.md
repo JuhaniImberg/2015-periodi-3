@@ -11,8 +11,14 @@ Progress
 --------
 
 - [x] Tokenizer
-- [x] Base parser
+- [ ] Base parser
+  - [x] Basic stuff
+  - [ ] Whitespace
 - [ ] Sub parsers
+  - [x] Identifier
+  - [x] Assign
+  - [x] Number
+  - [ ] The rest
 - [ ] Abstract syntax tree
 - [ ] Environment
 - [ ] Built in library

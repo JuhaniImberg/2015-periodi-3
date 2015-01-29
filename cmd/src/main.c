@@ -33,6 +33,15 @@ int main(int argc, char **argv) {
         for(unsigned int i = 0; i < len; i++) {
             Token_print((struct Token *)Vector_get(ti->tokens, i), source);
         }
+
+        struct Parser *parser = Parser_new(ti->tokens);
+
+        while(1) {
+            Parser_parse_node(parser, 0);
+        }
+
+        Parser_delete(parser);
+
         Tokenizer_delete(ti);
     }
     return 0;

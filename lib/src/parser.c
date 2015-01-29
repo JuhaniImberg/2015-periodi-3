@@ -13,6 +13,9 @@ struct Parser *Parser_new(struct Vector *tokens) {
     Map_set_operations(parser->precedences, number_hash, number_equals);
 
     Parser_add_prefix(parser, T_IDENTIFIER, identifier_parser);
+    Parser_add_prefix(parser, T_NUMBER, number_parser);
+
+    Parser_add_infix(parser, T_SET, assign_parser);
 
     Parser_add_precedence(parser, T_SET, 1);
     Parser_add_precedence(parser, T_FN, 1);
@@ -50,13 +53,25 @@ void Parser_add_infix(struct Parser *parser, enum TokenTypeEnum type,
 
 struct Node *Parser_parse_node(struct Parser *parser, int precedence) {
     struct Token *token = Parser_consume(parser);
-    PrefixParser prefix = (PrefixParser)Map_get(parser->prefix, &token->type->id);
-    ASSERT(prefix == NULL, "Unexpected token %d:%d", token->line, token->column)
+
+    if(token->type->id == T_EOL) {
+        return NULL;
+    }
+
+    PrefixParser prefix = (PrefixParser)Map_get(parser->prefix,
+                                                &token->type->id);
+    ASSERT(prefix == NULL, "Unexpected token %d:%d",
+           token->line, token->column)
+
     struct Node *left = prefix(parser, token);
     while(precedence < Parser_precedence(parser)) {
         token = Parser_consume(parser);
-        InfixParser infix = (InfixParser)Map_get(parser->infix, &token->type->id);
-        ASSERT(infix == NULL, "Unexpected token %d:%d", token->line, token->column)
+
+        InfixParser infix = (InfixParser)Map_get(parser->infix,
+                                                 &token->type->id);
+        ASSERT(infix == NULL, "Unexpected token %d:%d",
+               token->line, token->column)
+
         left = infix(parser, left, token);
     }
     return left;
@@ -88,16 +103,19 @@ struct Token *Parser_current(struct Parser *parser) {
 }
 
 struct Token *Parser_consume(struct Parser *parser) {
+    if(Vector_size(parser->tokens) >= parser->pos -1) {
+        ASSERT(1, "This is a dirty way to get out");
+    }
     return Vector_get(parser->tokens, parser->pos++);
 }
 
 int Parser_precedence(struct Parser *parser) {
     struct Token *token = Parser_current(parser);
-    void *v = Map_get(parser->precedences, &token->type->id);
-    if(v == NULL) {
+    void *val = Map_get(parser->precedences, &token->type->id);
+    if(val == NULL) {
         return false;
     }
-    return *(int *)v;
+    return *(int *)val;
 }
 
 void Parser_delete(struct Parser *parser) {
