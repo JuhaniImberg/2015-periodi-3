@@ -6,4 +6,8 @@
 struct Node *identifier_parser(struct Parser *parser,
                                struct Token *token);
 
+struct Node *assign_parser(struct Parser *parser,
+                           struct Node *left,
+                           struct Token *token);
+
 #endif
