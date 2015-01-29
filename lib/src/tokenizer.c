@@ -163,7 +163,7 @@ void Tokenizer_tokenize(struct Tokenizer *ti) {
                 Tokenizer_add_to_last(ti);
                 break;
             }
-            ERROR(1, "Unknown character met while tokenization %d:%d '%c'",
+            ASSERT(1, "Unknown character met while tokenization %d:%d '%c'",
                   ti->line, ti->column, current);
         }
         ti->column++;
@@ -180,7 +180,7 @@ void Tokenizer_tokenize(struct Tokenizer *ti) {
     for(unsigned int i = 0; i < tlen; i++) {
         token = Vector_get(ti->tokens, i);
         TTMatcher_match(ti->matcher, token, ti->source);
-        ERROR(token->type == NULL, "Unknown token met while tokenization %d:%d",
+        ASSERT(token->type == NULL, "Unknown token met while tokenization %d:%d",
               token->line, token->column)
     }
 }

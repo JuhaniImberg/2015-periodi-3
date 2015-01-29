@@ -8,5 +8,5 @@ struct Node *identifier_parser(struct Parser *parser,
 struct Node *assign_parser(struct Parser *parser,
                            struct Node *left,
                            struct Token *token) {
-    ERROR(left->type != N_IDENTIFIER, "Left token must be an identifier");
+    ASSERT(left->type != N_IDENTIFIER, "Left token must be an identifier");
 }

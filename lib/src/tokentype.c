@@ -25,7 +25,7 @@ struct TTMatcher *TTMatcher_new() {
         tmp[len + 1] = '$';
 
         s = regcomp(new->regex, tmp, REG_EXTENDED);
-        ERROR(s, "Regex compile failed");
+        ASSERT(s, "Regex compile failed");
 
         free(tmp);
         Vector_push(tt->types, (void *)new);

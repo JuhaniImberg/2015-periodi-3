@@ -1,7 +1,7 @@
 #ifndef MACROS_H
 #define MACROS_H
 
-#define ERROR(i, ...)                           \
+#define ASSERT(i, ...)                           \
 if(i) { \
 fprintf(stderr, "\033[31m[ERROR]\033[0m %s:%d, %s -> %s (%d)\n\033[31m[ERROR]\033[0m ", \
  __FILE__, __LINE__, __func__, strerror(errno), errno); \

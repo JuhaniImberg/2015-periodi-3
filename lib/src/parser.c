@@ -51,12 +51,12 @@ void Parser_add_infix(struct Parser *parser, enum TokenTypeEnum type,
 struct Node *Parser_parse_node(struct Parser *parser, int precedence) {
     struct Token *token = Parser_consume(parser);
     PrefixParser prefix = (PrefixParser)Map_get(parser->prefix, &token->type->id);
-    ERROR(prefix == NULL, "Unexpected token %d:%d", token->line, token->column)
+    ASSERT(prefix == NULL, "Unexpected token %d:%d", token->line, token->column)
     struct Node *left = prefix(parser, token);
     while(precedence < Parser_precedence(parser)) {
         token = Parser_consume(parser);
         InfixParser infix = (InfixParser)Map_get(parser->infix, &token->type->id);
-        ERROR(infix == NULL, "Unexpected token %d:%d", token->line, token->column)
+        ASSERT(infix == NULL, "Unexpected token %d:%d", token->line, token->column)
         left = infix(parser, left, token);
     }
     return left;
@@ -77,7 +77,7 @@ bool Parser_match(struct Parser *parser, enum TokenTypeEnum id) {
 struct Token *Parser_require(struct Parser *parser, enum TokenTypeEnum id) {
     struct Token *token = Vector_get(parser->tokens, parser->pos);
     if(token->type->id != id) {
-        ERROR(1, "Unexpected token met while parsing, %d:%d",
+        ASSERT(1, "Unexpected token met while parsing, %d:%d",
               token->line, token->column);
     }
     return Parser_consume(parser);
