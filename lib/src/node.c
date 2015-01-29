@@ -21,3 +21,7 @@ char *Node_identifier_name(struct Node *node, struct Environment *env) {
     ERROR(node->type != N_IDENTIFIER, "Node not an identifier");
     return Token_content(node->start, env->src);
 }
+
+/*struct Node *Node_assign_new(struct Node *towhat, struct Node *what) {
+    ERROR(towhat->type != N_IDENTIFIER, "lvalue is not an identifier");
+    }*/

@@ -7,6 +7,16 @@ tila [![Build Status][travis-img]][travis-link] [![Coverage Status][coveralls-im
 
 Programming language interpreter for [Aineopintojen harjoitustyö: Tietorakenteet ja algoritmit][course-link].
 
+Progress
+--------
+
+- [x] Tokenizer
+- [x] Base parser
+- [ ] Sub parsers
+- [ ] Abstract syntax tree
+- [ ] Environment
+- [ ] Built in library
+
 Folder structure
 ----------------
 
