@@ -37,22 +37,26 @@ void Map_set_operations(struct Map *map,
 
 /**
  * @brief Does the map contain the key
- * @param key The key that gets checked
+ * @param key A pointer to the key
+ * @param key_length The length of the keys data
  * @returns True if the map contains the key
  */
 bool Map_contains(struct Map *map, void *key, size_t key_length);
 
 /**
  * @brief Gets a value from the map
- * @param key The key that is associated with the wanted value
+ * @param key A pointer to the key that is associated with the wanted value
+ * @param key_length The length of the keys data
  * @returns Pointer to the value if found, NULL otherwise
  */
 void *Map_get(struct Map *map, void *key, size_t key_length);
 
 /**
  * @brief Associates the key with the value in the map
- * @param key The key that is to be associated with the value
+ * @param key A pointer to the key that is to be associated with the value
+ * @param key_length The length of the keys data
  * @param value Pointer to the value
+ * @param value_length The length of the data
  */
 void Map_put(struct Map *map, void *key, size_t key_length,
              void *value, size_t value_length);
@@ -60,6 +64,7 @@ void Map_put(struct Map *map, void *key, size_t key_length,
 /**
  * @brief Removes the value from the map that's associated with the key
  * @param key The key that is associated with the wanted value
+ * @param key_length The length of the key
  */
 void Map_remove(struct Map *map, void *key, size_t key_length);
 
