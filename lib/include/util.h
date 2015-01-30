@@ -8,7 +8,7 @@
  * @param key This will be casted to a char *
  * @returns The hash of the key
 */
-unsigned long string_hash(void *key);
+unsigned long generic_hash(void *key, size_t key_length);
 
 /**
  * @brief Compares two strings
@@ -16,22 +16,7 @@ unsigned long string_hash(void *key);
  * @param b The second string, will be casted to char *
  * @returns True if the strings are equal
  */
-bool string_equals(void *a, void *b);
-
-/**
- * @brief Hashes a number
- * @param key This will be casted to a unsigned long
- * @returns The hash of the key
- */
-unsigned long number_hash(void *key);
-
-/**
- * @brief Compares two numbers
- * @param a The first number, will be casted to a unsigned long
- * @param b The second number, will be casted to a unsigned long
- * @returns True if the numbers are equal
- */
-bool number_equals(void *a, void *b);
+bool generic_equals(void *a, size_t a_length, void *b, size_t b_length);
 
 /**
  * @brief Is char a digit

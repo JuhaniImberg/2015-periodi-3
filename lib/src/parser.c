@@ -8,14 +8,11 @@ struct Parser *Parser_new(struct Vector *tokens) {
     parser->prefix = Map_new();
     parser->infix = Map_new();
     parser->precedences = Map_new();
-    Map_set_operations(parser->prefix, number_hash, number_equals);
-    Map_set_operations(parser->infix, number_hash, number_equals);
-    Map_set_operations(parser->precedences, number_hash, number_equals);
 
-    Parser_add_prefix(parser, T_IDENTIFIER, identifier_parser);
-    Parser_add_prefix(parser, T_NUMBER, number_parser);
+    Parser_add_prefix(parser, T_IDENTIFIER, &identifier_parser);
+    Parser_add_prefix(parser, T_NUMBER, &number_parser);
 
-    Parser_add_infix(parser, T_SET, assign_parser);
+    Parser_add_infix(parser, T_SET, &assign_parser);
 
     Parser_add_precedence(parser, T_SET, 1);
     Parser_add_precedence(parser, T_FN, 1);
@@ -38,18 +35,34 @@ struct Parser *Parser_new(struct Vector *tokens) {
 }
 
 void Parser_add_precedence(struct Parser *parser, enum TokenTypeEnum i, int v) {
-    Map_put(parser->precedences, &i, &v);
+    Map_put(parser->precedences, &i, sizeof(enum TokenTypeEnum),
+            &v, sizeof(int));
 }
 
 void Parser_add_prefix(struct Parser *parser, enum TokenTypeEnum type,
                        PrefixParser prefix) {
-    Map_put(parser->prefix, &type, prefix);
+    Map_put(parser->prefix, &type, sizeof(enum TokenTypeEnum),
+            &prefix, sizeof(prefix));
+    printf("%p %lu\n", prefix, sizeof(prefix));
 }
 
 void Parser_add_infix(struct Parser *parser, enum TokenTypeEnum type,
                       InfixParser infix) {
-    Map_put(parser->infix, &type, infix);
+    Map_put(parser->infix, &type, sizeof(enum TokenTypeEnum),
+            &infix, sizeof(infix));
 }
+
+PrefixParser Parser_get_prefix(struct Parser *parser, enum TokenTypeEnum type) {
+    return (PrefixParser)Map_get(parser->prefix, &type,
+                                 sizeof(enum TokenTypeEnum));
+}
+
+
+InfixParser Parser_get_infix(struct Parser *parser, enum TokenTypeEnum type) {
+    return (InfixParser)Map_get(parser->infix, &type,
+                                sizeof(enum TokenTypeEnum));
+}
+
 
 struct Node *Parser_parse_node(struct Parser *parser, int precedence) {
     struct Token *token = Parser_consume(parser);
@@ -58,17 +71,17 @@ struct Node *Parser_parse_node(struct Parser *parser, int precedence) {
         return NULL;
     }
 
-    PrefixParser prefix = (PrefixParser)Map_get(parser->prefix,
-                                                &token->type->id);
+    PrefixParser prefix = Parser_get_prefix(parser, token->type->id);
     ASSERT(prefix == NULL, "Unexpected token %d:%d",
            token->line, token->column)
+
+        printf("%p %p %lu\n", prefix, *prefix, sizeof(prefix));
 
     struct Node *left = prefix(parser, token);
     while(precedence < Parser_precedence(parser)) {
         token = Parser_consume(parser);
 
-        InfixParser infix = (InfixParser)Map_get(parser->infix,
-                                                 &token->type->id);
+        InfixParser infix = Parser_get_infix(parser, token->type->id);
         ASSERT(infix == NULL, "Unexpected token %d:%d",
                token->line, token->column)
 
@@ -111,7 +124,8 @@ struct Token *Parser_consume(struct Parser *parser) {
 
 int Parser_precedence(struct Parser *parser) {
     struct Token *token = Parser_current(parser);
-    void *val = Map_get(parser->precedences, &token->type->id);
+    void *val = Map_get(parser->precedences, &token->type->id,
+                        sizeof(enum TokenTypeEnum));
     if(val == NULL) {
         return false;
     }

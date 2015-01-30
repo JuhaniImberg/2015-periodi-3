@@ -1,6 +1,6 @@
 #include "tila.h"
 
-struct Node *identifier_parser(struct Parser *parser,
+struct Node *identifier_parser(struct Parser *parser __attribute__((unused)),
                                struct Token *token) {
     return Node_identifier_new(token);
 }
@@ -13,7 +13,7 @@ struct Node *assign_parser(struct Parser *parser,
     return Node_assign_new(left, token, right);
 }
 
-struct Node *number_parser(struct Parser *parser,
+struct Node *number_parser(struct Parser *parser __attribute__((unused)),
                            struct Token *token) {
     return Node_number_new(token);
 }

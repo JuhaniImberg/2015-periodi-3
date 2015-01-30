@@ -19,8 +19,8 @@ END_TEST
 
 START_TEST (test_util_hash)
 {
-    unsigned long a = string_hash((void *)"hello");
-    unsigned long b = string_hash((void *)"world");
+    unsigned long a = generic_hash((void *)"hello", 6);
+    unsigned long b = generic_hash((void *)"world", 6);
     ck_assert(a != b);
 }
 END_TEST

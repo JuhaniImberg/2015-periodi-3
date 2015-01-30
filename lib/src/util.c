@@ -1,11 +1,10 @@
 #include "tila.h"
 
-unsigned long string_hash(void *key) {
-    char *rkey = (char *)key;
+unsigned long generic_hash(void *key, size_t key_length) {
+    char *rkey = key;
     unsigned long h, g;
-    size_t len = strlen(key);
     h = 0;
-    for(unsigned int i = 0; i < len; i++) {
+    for(unsigned int i = 0; i < key_length; i++) {
         h = (h << 4) + rkey[i];
         g = h & 0xf0000000l;
         if(g != 0) {
@@ -16,16 +15,11 @@ unsigned long string_hash(void *key) {
     return h;
 }
 
-bool string_equals(void *a, void *b) {
-    return strcmp((char *)a, (char *)b) == 0;
-}
-
-unsigned long number_hash(void *key) {
-    return *(unsigned long *)key;
-}
-
-bool number_equals(void *a, void *b) {
-    return (*(unsigned long *)a) == (*(unsigned long *)b);
+bool generic_equals(void *a, size_t a_length, void *b, size_t b_length) {
+    if(a_length != b_length) {
+        return false;
+    }
+    return memcmp(a, b, a_length) == 0;
 }
 
 bool t_is_digit(char c) {

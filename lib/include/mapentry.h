@@ -1,6 +1,8 @@
 #ifndef MAPENTRY_H
 #define MAPENTRY_H
 
+#include "tila.h"
+
 /**
  * @brief Internal datastructure of the @link //ref/c/tag/Map @/link
  * @field hash The hash code of the key
@@ -11,6 +13,8 @@ struct MapEntry {
     unsigned long hash;
     void *key;
     void *value;
+    size_t key_length;
+    size_t value_length;
     struct MapEntry *next;
     struct MapEntry *prev;
 };
@@ -21,14 +25,10 @@ struct MapEntry {
  * @param hash The hash value of the key
  * @param value Pointer to the data
  */
-struct MapEntry *MapEntry_new(void *key, unsigned long hash, void *value);
+struct MapEntry *MapEntry_new(void *key, size_t key_length, unsigned long hash,
+                              void *value, size_t value_length);
 
-/**
- * @brief Sets the value of the given MapEntry
- * @param entry The entry to modify
- * @param value The new value of the entry
- */
-void MapEntry_set(struct MapEntry *entry, void *value);
+void MapEntry_set(struct MapEntry *entry, void *value, size_t value_length);
 
 /**
  * @brief Frees the allocated memory for the given entry

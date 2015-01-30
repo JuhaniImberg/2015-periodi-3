@@ -16,8 +16,8 @@ struct Map {
     unsigned int size;
     unsigned int allocated_size;
     struct MapEntry** data;
-    unsigned long (*hash_function)(void *);
-    bool (*equals_function)(void *, void *);
+    unsigned long (*hash_function)(void *, size_t);
+    bool (*equals_function)(void *, size_t, void *, size_t);
 };
 
 /**
@@ -32,35 +32,36 @@ struct Map *Map_new();
  *        keys are equal
  */
 void Map_set_operations(struct Map *map,
-                        unsigned long (*hash_function)(void *),
-                        bool (*equals_function)(void *, void *));
+                        unsigned long (*hash_function)(void *, size_t),
+                        bool (*equals_function)(void *, size_t, void *, size_t));
 
 /**
  * @brief Does the map contain the key
  * @param key The key that gets checked
  * @returns True if the map contains the key
  */
-bool Map_contains(struct Map *map, void *key);
+bool Map_contains(struct Map *map, void *key, size_t key_length);
 
 /**
  * @brief Gets a value from the map
  * @param key The key that is associated with the wanted value
  * @returns Pointer to the value if found, NULL otherwise
  */
-void *Map_get(struct Map *map, void *key);
+void *Map_get(struct Map *map, void *key, size_t key_length);
 
 /**
  * @brief Associates the key with the value in the map
  * @param key The key that is to be associated with the value
  * @param value Pointer to the value
  */
-void Map_put(struct Map *map, void *key, void *value);
+void Map_put(struct Map *map, void *key, size_t key_length,
+             void *value, size_t value_length);
 
 /**
  * @brief Removes the value from the map that's associated with the key
  * @param key The key that is associated with the wanted value
  */
-void Map_remove(struct Map *map, void *key);
+void Map_remove(struct Map *map, void *key, size_t key_length);
 
 /**
  * @brief Deletes the map
