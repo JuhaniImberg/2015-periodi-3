@@ -6,13 +6,15 @@ struct Parser *Parser_new(struct Vector *tokens) {
     parser->tokens = tokens;
     parser->pos = 0;
     parser->prefix = Map_new();
+    parser->prefix->copy_value = false;
     parser->infix = Map_new();
+    parser->infix->copy_value = false;
     parser->precedences = Map_new();
 
-    Parser_add_prefix(parser, T_IDENTIFIER, &identifier_parser);
-    Parser_add_prefix(parser, T_NUMBER, &number_parser);
+    Parser_add_prefix(parser, T_IDENTIFIER, identifier_parser);
+    Parser_add_prefix(parser, T_NUMBER, number_parser);
 
-    Parser_add_infix(parser, T_SET, &assign_parser);
+    Parser_add_infix(parser, T_SET, assign_parser);
 
     Parser_add_precedence(parser, T_SET, 1);
     Parser_add_precedence(parser, T_FN, 1);
@@ -42,14 +44,13 @@ void Parser_add_precedence(struct Parser *parser, enum TokenTypeEnum i, int v) {
 void Parser_add_prefix(struct Parser *parser, enum TokenTypeEnum type,
                        PrefixParser prefix) {
     Map_put(parser->prefix, &type, sizeof(enum TokenTypeEnum),
-            &prefix, sizeof(prefix));
-    printf("%p %lu\n", prefix, sizeof(prefix));
+            prefix, sizeof(prefix));
 }
 
 void Parser_add_infix(struct Parser *parser, enum TokenTypeEnum type,
                       InfixParser infix) {
     Map_put(parser->infix, &type, sizeof(enum TokenTypeEnum),
-            &infix, sizeof(infix));
+            infix, sizeof(infix));
 }
 
 PrefixParser Parser_get_prefix(struct Parser *parser, enum TokenTypeEnum type) {
@@ -74,8 +75,6 @@ struct Node *Parser_parse_node(struct Parser *parser, int precedence) {
     PrefixParser prefix = Parser_get_prefix(parser, token->type->id);
     ASSERT(prefix == NULL, "Unexpected token %d:%d",
            token->line, token->column)
-
-        printf("%p %p %lu\n", prefix, *prefix, sizeof(prefix));
 
     struct Node *left = prefix(parser, token);
     while(precedence < Parser_precedence(parser)) {

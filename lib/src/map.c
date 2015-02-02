@@ -5,6 +5,7 @@ struct Map *Map_new() {
     map->size = 0;
     map->allocated_size = 2<<6;
     map->data = calloc(2<<6, sizeof(struct MapEntry *));
+    map->copy_value = true;
     map->hash_function = &generic_hash;
     map->equals_function = &generic_equals;
     return map;
@@ -64,7 +65,7 @@ void Map_put_raw(struct Map *map, void *key, size_t key_length,
     struct MapEntry *old = map->data[local];
     if(old == NULL) {
         map->data[local] = MapEntry_new(key, key_length, hash,
-                                        value, value_length);
+                                        value, value_length, map->copy_value);
     } else {
         if(old->hash == hash) {
             MapEntry_set(old, value, value_length);
@@ -79,7 +80,8 @@ void Map_put_raw(struct Map *map, void *key, size_t key_length,
             }
             old = old->next;
         }
-        old->next = MapEntry_new(key, key_length, hash, value, value_length);
+        old->next = MapEntry_new(key, key_length, hash, value, value_length,
+                                 map->copy_value);
         old->next->prev = old;
     }
     map->size++;

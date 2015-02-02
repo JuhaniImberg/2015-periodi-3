@@ -10,6 +10,7 @@
  * @field value A pointer to the value
  * @field key_length The length of the key in bytes
  * @field value_length The length of the value in bytes
+ * @field copy_value Should the value be copied
  */
 struct MapEntry {
     unsigned long hash;
@@ -17,6 +18,7 @@ struct MapEntry {
     void *value;
     size_t key_length;
     size_t value_length;
+    bool copy_value;
     struct MapEntry *next;
     struct MapEntry *prev;
 };
@@ -28,9 +30,11 @@ struct MapEntry {
  * @param hash The hash value of the key
  * @param value Pointer to the data
  * @param value_length The length of the value
+ * @param copy_value Should the value be copied
  */
 struct MapEntry *MapEntry_new(void *key, size_t key_length, unsigned long hash,
-                              void *value, size_t value_length);
+                              void *value, size_t value_length,
+                              bool copy_value);
 
 /**
  * @brief Changes the entries value to another one

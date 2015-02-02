@@ -11,11 +11,13 @@
  * @field hash_function The function that is used for hashing the keys
  * @field equals_function The function that is used for checking if two keys are
  *        the same
+ * @field copy_value Should the map entries values be copied or not
  */
 struct Map {
     unsigned int size;
     unsigned int allocated_size;
     struct MapEntry** data;
+    bool copy_value;
     unsigned long (*hash_function)(void *, size_t);
     bool (*equals_function)(void *, size_t, void *, size_t);
 };
