@@ -35,9 +35,13 @@ int main(int argc, char **argv) {
         }
 
         struct Parser *parser = Parser_new(ti->tokens);
+        struct Environment *env = Environment_new(source);
 
         while(!Parser_done(parser)) {
-            Parser_parse_node(parser, 0);
+            struct Node *node = Parser_parse_node(parser, 0);
+            if(node != NULL) {
+                node->repr(node, env);
+            }
         }
 
         Parser_delete(parser);

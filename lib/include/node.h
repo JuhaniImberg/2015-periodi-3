@@ -32,7 +32,8 @@ struct Node {
     struct Token *start;
     struct Node *left;
     struct Node *right;
-    struct Node *(*get_value)(struct Environment *environment);
+    struct Node *(*get_value)(struct Node *, struct Environment *environment);
+    void (*repr)(struct Node *, struct Environment *environment);
 };
 
 /**
@@ -66,5 +67,9 @@ struct Node *Node_assign_new(struct Node *towhat, struct Token *token,
  * @brief Creates a new number node
  */
 struct Node *Node_number_new(struct Token *token);
+
+void Node_identifier_repr(struct Node *, struct Environment *);
+void Node_assign_repr(struct Node *, struct Environment *);
+void Node_number_repr(struct Node *, struct Environment *);
 
 #endif

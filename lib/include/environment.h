@@ -13,7 +13,7 @@ struct Environment {
     char *src;
 };
 
-struct Environment *Environment_new();
+struct Environment *Environment_new(char *src);
 void Environment_delete(struct Environment *environment);
 
 #endif
