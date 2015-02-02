@@ -82,10 +82,41 @@ bool Parser_is_next(struct Parser *parser, enum TokenTypeEnum id);
  * @returns True if the type matches
  */
 bool Parser_match(struct Parser *parser, enum TokenTypeEnum id);
+
+/**
+ * @brief Requires that the current token is of the type id
+ * @param id The type that is required
+ * @returns The token
+ */
 struct Token *Parser_require(struct Parser *parser, enum TokenTypeEnum id);
+
+/**
+ * @brief Returns the current token and advances to the next one
+ * @returns The current token and advances to the next one
+ */
 struct Token *Parser_consume(struct Parser *parser);
+
+/**
+ * @brief Returns the current token
+ * @returns The current token
+ */
 struct Token *Parser_current(struct Parser *parser);
+
+/**
+ * @brief Returns the current tokens infix parsers precedence
+ * @returns The current tokens infix parsers precedence
+ */
 int Parser_precedence(struct Parser *parser);
+
+/**
+ * @brief Returns if the parser is done
+ * @returns True if the parser is done with all of the tokens, false otherwise
+ */
+bool Parser_done(struct Parser *parser);
+
+/**
+ * @brief Deletes the parser
+ */
 void Parser_delete(struct Parser *parser);
 
 #endif

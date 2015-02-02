@@ -68,7 +68,7 @@ InfixParser Parser_get_infix(struct Parser *parser, enum TokenTypeEnum type) {
 struct Node *Parser_parse_node(struct Parser *parser, int precedence) {
     struct Token *token = Parser_consume(parser);
 
-    if(token->type->id == T_EOL) {
+    if(token == NULL || token->type->id == T_EOL) {
         return NULL;
     }
 
@@ -115,10 +115,11 @@ struct Token *Parser_current(struct Parser *parser) {
 }
 
 struct Token *Parser_consume(struct Parser *parser) {
-    if(Vector_size(parser->tokens) >= parser->pos -1) {
-        ASSERT(1, "This is a dirty way to get out");
-    }
     return Vector_get(parser->tokens, parser->pos++);
+}
+
+bool Parser_done(struct Parser *parser) {
+    return parser->pos >= Vector_size(parser->tokens);
 }
 
 int Parser_precedence(struct Parser *parser) {

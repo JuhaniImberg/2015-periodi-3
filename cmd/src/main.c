@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
 
         struct Parser *parser = Parser_new(ti->tokens);
 
-        while(1) {
+        while(!Parser_done(parser)) {
             Parser_parse_node(parser, 0);
         }
 
