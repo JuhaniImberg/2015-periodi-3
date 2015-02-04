@@ -34,12 +34,17 @@ int main(int argc, char **argv) {
             Token_print((struct Token *)Vector_get(ti->tokens, i), source);
         }
 
+        // Parser parses the tokens into a tree
         struct Parser *parser = Parser_new(ti->tokens);
+        // Environment describes the environment where the program is run,
+        // the current context and so on
         struct Environment *env = Environment_new(source);
 
+        // While there are things to parse
         while(!Parser_done(parser)) {
             struct Node *node = Parser_parse_node(parser, 0);
             if(node != NULL) {
+                // Call the repr function of each node that we got
                 node->repr(node, env);
                 Node_delete(node);
             }

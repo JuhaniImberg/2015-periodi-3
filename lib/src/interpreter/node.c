@@ -11,8 +11,13 @@ struct Node *Node_new(enum NodeTypeEnum type) {
     return node;
 }
 
+void Node_delete_void_pointer(void *data) {
+    Node_delete(data);
+}
+
 void Node_delete(struct Node *node) {
     if(node->vector != NULL) {
+        Vector_each(node->vector, Node_delete_void_pointer);
         Vector_delete(node->vector);
     }
     if(node->right != NULL) {

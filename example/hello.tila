@@ -2,3 +2,4 @@
 
 main = (args) ->
   print("hello world")
+  print("world of hellos")

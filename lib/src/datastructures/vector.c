@@ -91,6 +91,15 @@ void Vector_clear(struct Vector *vector) {
     vector->size = 0;
 }
 
+void Vector_each(struct Vector *vector, void (*cb)(void *)) {
+    for(size_t i = 0; i < vector->size; i++) {
+        void *data = Vector_get(vector, i);
+        if(data != NULL) {
+            cb(data);
+        }
+    }
+}
+
 void Vector_delete(struct Vector *vector) {
     free(vector->data);
     free(vector);

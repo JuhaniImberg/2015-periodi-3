@@ -90,6 +90,12 @@ void *Vector_pop(struct Vector *vector);
 void *Vector_top(struct Vector *vector);
 
 /**
+ * @brief Calls cb on each of the elements that are not null
+ * @param cb A function that gets called on each of the elements
+ */
+void Vector_each(struct Vector *vector, void (*cb)(void *));
+
+/**
  * @brief Deallocates all of the memory that was assigned to the vector
  */
 void Vector_delete(struct Vector *vector);
