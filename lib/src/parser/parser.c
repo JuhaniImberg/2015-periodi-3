@@ -81,6 +81,7 @@ void Parser_decrease_indentation(struct Parser *parser) {
 bool Parser_has_indentation(struct Parser *parser, unsigned int pos) {
     struct Token *token = Parser_current(parser);
     if(token->type->id == T_EOL) {
+        parser->last_nl = true;
         Parser_consume(parser);
     }
     token = Parser_current(parser);
