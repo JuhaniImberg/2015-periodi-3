@@ -67,16 +67,40 @@ struct Node *AssignNode_new(struct Node *towhat, struct Token *token,
 
 /**
  * @brief Creates a new number node
+ * @param token The token that holds the number inside
  */
 struct Node *NumberNode_new(struct Token *token);
 
+/**
+ * @brief Creates a new string node
+ * @param token The token that holds the string inside
+ */
 struct Node *StringNode_new(struct Token *token);
 
+/**
+ * @brief Creates a new argument node, for use with defining functions
+ * @param vector Vector of the arguments that have been given
+ * @param token The token that marks the start of this node
+ */
 struct  Node *ArgumentNode_new(struct Vector *vector, struct Token *token);
 
+/**
+ * @brief Creates a new function node, represents a function
+ * @param body A vector of the nodes that are under this one
+ * @param args An ArgumentNode that has the arguments that are passed to this
+ *             function when called
+ * @param token The token that marks the start of this node
+ */
 struct Node *FunctionNode_new(struct Vector *body, struct Node *args,
                               struct Token *token);
 
+/**
+ * @brief Creates a new calling node, a node that calls its identifier with a
+ *        list of arguments
+ * @param What The node that's value will be called
+ * @param token The token that represents the start of this node
+ * @param args A list of arguments that get passed to the function that's called
+ */
 struct Node *CallNode_new(struct Node *what, struct Token *token,
                           struct Vector *args);
 

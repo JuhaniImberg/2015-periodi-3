@@ -63,8 +63,22 @@ void Parser_add_infix(struct Parser *parser, enum TokenTypeEnum type,
 void Parser_add_prefix(struct Parser *parser, enum TokenTypeEnum type,
                        PrefixParser prefix);
 
+/**
+ * @brief Increases the required indentation by 2 spaces
+ * @returns The current indentation amount
+ */
 int Parser_increase_indentation(struct Parser *parser);
+
+/**
+ * @brief Decreases the required indentation amount by 2 spaces
+ */
 void Parser_decrease_indentation(struct Parser *parser);
+
+/**
+ * @brief Does the current line have an required amount of indentation
+ * @param pos The amount that is required
+ * @returns True if enough, false otherwise
+ */
 bool Parser_has_indentation(struct Parser *parser, unsigned int pos);
 
 /**
