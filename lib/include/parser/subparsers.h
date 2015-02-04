@@ -13,4 +13,7 @@ struct Node *assign_parser(struct Parser *parser,
 struct Node *number_parser(struct Parser *parser,
                            struct Token *token);
 
+struct Node *argument_parser(struct Parser *parser,
+                             struct Token *token);
+
 #endif

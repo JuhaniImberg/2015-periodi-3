@@ -48,7 +48,7 @@ void Map_remove(struct Map *map, void *key, size_t key_length) {
                && map->equals_function(key, key_length,
                                        node->key, node->key_length)) {
                 map->data[local] = node->next;
-            } else {
+            } else if(node->prev != NULL) {
                 node->prev->next = node->next;
             }
             map->size--;

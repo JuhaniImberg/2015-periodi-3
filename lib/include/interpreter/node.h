@@ -13,7 +13,8 @@ enum NodeTypeEnum {
     N_FN,
     N_STRING,
     N_ASSIGN,
-    N_CALL
+    N_CALL,
+    N_ARGUMENTS,
 };
 
 /**
@@ -32,6 +33,7 @@ struct Node {
     struct Token *start;
     struct Node *left;
     struct Node *right;
+    struct Vector *vector;
     struct Node *(*get_value)(struct Node *, struct Environment *environment);
     void (*repr)(struct Node *, struct Environment *environment);
 };
@@ -51,8 +53,8 @@ void Node_delete(struct Node *node);
  * @brief Creates a new identifier node
  * @param token The token that is the actual identifier
  */
-struct Node *Node_identifier_new(struct Token *token);
-char *Node_identifier_name(struct Node *node, struct Environment *env);
+struct Node *IdentifierNode_new(struct Token *token);
+char *IdentifierNode_name(struct Node *node, struct Environment *env);
 
 /**
  * @brief Creates a new assignment node
@@ -60,16 +62,16 @@ char *Node_identifier_name(struct Node *node, struct Environment *env);
  * @param what What is assigned to towhat
  * @token The assignment operators token, just for completeness
  */
-struct Node *Node_assign_new(struct Node *towhat, struct Token *token,
-                             struct Node *what);
+struct Node *AssignNode_new(struct Node *towhat, struct Token *token,
+                            struct Node *what);
 
 /**
  * @brief Creates a new number node
  */
-struct Node *Node_number_new(struct Token *token);
+struct Node *NumberNode_new(struct Token *token);
 
-void Node_identifier_repr(struct Node *, struct Environment *);
-void Node_assign_repr(struct Node *, struct Environment *);
-void Node_number_repr(struct Node *, struct Environment *);
+void IdentifierNode_repr(struct Node *, struct Environment *);
+void AssignNode_repr(struct Node *, struct Environment *);
+void NumberNode_repr(struct Node *, struct Environment *);
 
 #endif
