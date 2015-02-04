@@ -18,6 +18,11 @@ struct Node *number_parser(struct Parser *parser __attribute__((unused)),
     return NumberNode_new(token);
 }
 
+struct Node *string_parser(struct Parser *parser __attribute__((unused)),
+                           struct Token *token) {
+    return StringNode_new(token);
+}
+
 struct Node *argument_parser(struct Parser *parser,
                              struct Token *token) {
     struct Vector *vector = Vector_new();
@@ -48,4 +53,16 @@ struct Node *function_parser(struct Parser *parser,
     }
     Parser_decrease_indentation(parser);
     return FunctionNode_new(body, left, token);
+}
+
+struct Node *call_parser(struct Parser *parser,
+                         struct Node *left,
+                         struct Token *token) {
+    struct Vector *vector = Vector_new();
+    while(!Parser_match(parser, T_RPAREN)) {
+        do {
+            Vector_push(vector, Parser_parse_node(parser, 0));
+        } while(Parser_match(parser, T_COMMA));
+    }
+    return CallNode_new(left, token, vector);
 }

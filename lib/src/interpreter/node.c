@@ -56,6 +56,14 @@ struct Node *NumberNode_new(struct Token *token) {
     return node;
 }
 
+struct Node *StringNode_new(struct Token *token) {
+    ASSERT(token->type->id != T_STRING, "Token is not a string");
+    struct Node *node = Node_new(N_STRING);
+    node->repr = StringNode_repr;
+    node->start = token;
+    return node;
+}
+
 struct Node *ArgumentNode_new(struct Vector *vector, struct Token *token) {
     struct Node *node = Node_new(N_ARGUMENT);
     node->start = token;
@@ -74,6 +82,16 @@ struct Node *FunctionNode_new(struct Vector *body, struct Node *args,
     return node;
 }
 
+struct Node *CallNode_new(struct Node *what, struct Token *token,
+                          struct Vector *args) {
+    struct Node *node = Node_new(N_CALL);
+    node->left = what;
+    node->vector = args;
+    node->start = token;
+    node->repr = CallNode_repr;
+    return node;
+}
+
 void IdentifierNode_repr(struct Node *node, struct Environment *env) {
     char *content = Token_content(node->start, env->src);
     printf("%s", content);
@@ -88,6 +106,11 @@ void AssignNode_repr(struct Node *node, struct Environment *env) {
 }
 
 void NumberNode_repr(struct Node *node, struct Environment *env) {
+    char *content = Token_content(node->start, env->src);
+    printf("%s", content);
+}
+
+void StringNode_repr(struct Node *node, struct Environment *env) {
     char *content = Token_content(node->start, env->src);
     printf("%s", content);
 }
@@ -118,4 +141,19 @@ void FunctionNode_repr(struct Node *node, struct Environment *env) {
         }
     }
     printf("])");
+}
+
+void CallNode_repr(struct Node *node, struct Environment *env) {
+    printf("(");
+    node->left->repr(node->left, env);
+    printf(" [");
+    size_t i, len = Vector_size(node->vector);
+    for(i = 0; i < len; i++) {
+        struct Node *nd = Vector_get(node->vector, i);
+        nd->repr(nd, env);
+        if(i + 1 < len) {
+            printf(", ");
+        }
+    }
+    printf(")");
 }

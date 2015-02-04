@@ -70,17 +70,23 @@ struct Node *AssignNode_new(struct Node *towhat, struct Token *token,
  */
 struct Node *NumberNode_new(struct Token *token);
 
+struct Node *StringNode_new(struct Token *token);
 
 struct  Node *ArgumentNode_new(struct Vector *vector, struct Token *token);
 
 struct Node *FunctionNode_new(struct Vector *body, struct Node *args,
                               struct Token *token);
 
+struct Node *CallNode_new(struct Node *what, struct Token *token,
+                          struct Vector *args);
+
 void IdentifierNode_repr(struct Node *, struct Environment *);
 void AssignNode_repr(struct Node *, struct Environment *);
 void NumberNode_repr(struct Node *, struct Environment *);
+void StringNode_repr(struct Node *, struct Environment *);
 void ArgumentNode_repr(struct Node *, struct Environment *);
 void FunctionNode_repr(struct Node *, struct Environment *);
+void CallNode_repr(struct Node *, struct Environment *);
 
 
 #endif
