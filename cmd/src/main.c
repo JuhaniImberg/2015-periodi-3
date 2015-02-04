@@ -41,11 +41,12 @@ int main(int argc, char **argv) {
             struct Node *node = Parser_parse_node(parser, 0);
             if(node != NULL) {
                 node->repr(node, env);
+                Node_delete(node);
             }
         }
 
         Parser_delete(parser);
-
+        Environment_delete(env);
         Tokenizer_delete(ti);
     }
     return 0;

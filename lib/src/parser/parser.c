@@ -1,5 +1,5 @@
 #include "tila.h"
-#include "subparsers.h"
+#include "parser/subparsers.h"
 
 struct Parser *Parser_new(struct Vector *tokens) {
     struct Parser *parser = (struct Parser *)malloc(sizeof(struct Parser));
@@ -135,5 +135,6 @@ int Parser_precedence(struct Parser *parser) {
 void Parser_delete(struct Parser *parser) {
     Map_delete(parser->prefix);
     Map_delete(parser->infix);
+    Map_delete(parser->precedences);
     free(parser);
 }

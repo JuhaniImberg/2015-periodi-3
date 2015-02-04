@@ -5,5 +5,5 @@
                                              ("../../lib/include/*" .
                                               ("../../lib/include" .
                                                ("../../include" .
-                                                ("../../include/*" . nil)))))))
+                                                 ("../../include/*" . nil)))))))
             (c-doc-comment-style . "javadoc"))))

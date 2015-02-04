@@ -1,7 +1,7 @@
 #include "tila.h"
 
 struct Node *Node_new(enum NodeTypeEnum type) {
-    struct Node *node = (struct Node *)malloc(sizeof(struct Node));
+    struct Node *node = malloc(sizeof(struct Node));
     node->type = type;
     node->vector = NULL;
     node->left = NULL;
