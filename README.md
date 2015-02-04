@@ -27,20 +27,30 @@ Folder structure
 ----------------
 
     .
-    ├── build          For building the project
+    ├── build                   For building the project
     ├── cmake
-    │   └── Modules    Additional modules for CMake
-    ├── cmd            The command line client to tila
-    │   ├── include    Includes for the header files for the cmd
-    │   └── src        The source files
-    ├── doc            Manually written documentation (week reports etc)
-    ├── example        Examples of the tila language
-    ├── lib            Sourcecode for libtila, basically all of the actual code is here
-    │   ├── include    Headers and HeaderDoc documentation for the library
-    │   └── src        The source files
-    └── test           Folder for all of the tests
-        ├── include    Headers for the tests
-        └── src        Actual tests
+    │   └── Modules             Additional modules for CMake
+    ├── cmd                     The command line client to tila
+    │   ├── include             Includes for the header files for the cmd
+    │   └── src                 The source files
+    ├── doc                     Manually written documentation (week reports etc)
+    ├── example                 Examples of the tila language
+    ├── lib                     Source code for libtila, basically all of the actual code is here
+    │   ├── include             Headers and HeaderDoc documentation for the library
+    │   │   ├── datastructures  Implemented datastructures
+    │   │   ├── interpreter     The tila interpreter, that deals with nodes
+    │   │   ├── parser          Parser takes tokens from tokenizer and creates nodes for the interpreter
+    │   │   ├── tokenizer       Tokenizer tokenizes the source
+    │   │   └── util            Contains some helpful functions
+    │   └── src                 The source files, sub directories are the same as in include
+    │       ├── datastructures
+    │       ├── interpreter
+    │       ├── parser
+    │       ├── tokenizer
+    │       └── util
+    └── test                    Folder for all of the tests
+        ├── include             Headers for the tests
+        └── src                 Actual tests
 
 Dependencies
 ------------

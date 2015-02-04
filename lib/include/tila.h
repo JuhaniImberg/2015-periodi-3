@@ -11,19 +11,19 @@
 #include <sys/mman.h>
 #include <errno.h>
 
-#include "macros.h"
-#include "util.h"
-#include "vector.h"
-#include "mapentry.h"
-#include "map.h"
+#include "util/macros.h"
+#include "util/util.h"
+#include "datastructures/vector.h"
+#include "datastructures/mapentry.h"
+#include "datastructures/map.h"
 
-#include "tokentype.h"
-#include "token.h"
-#include "tokenizer.h"
-#include "node.h"
-#include "environment.h"
-#include "parser.h"
-#include "subparsers.h"
+#include "tokenizer/tokentype.h"
+#include "tokenizer/token.h"
+#include "tokenizer/tokenizer.h"
+#include "interpreter/node.h"
+#include "interpreter/environment.h"
+#include "parser/parser.h"
+#include "parser/subparsers.h"
 
 
 #endif
