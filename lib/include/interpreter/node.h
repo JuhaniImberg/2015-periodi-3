@@ -10,11 +10,11 @@
 enum NodeTypeEnum {
     N_IDENTIFIER,
     N_NUMBER,
-    N_FN,
+    N_FUNCTION,
     N_STRING,
     N_ASSIGN,
     N_CALL,
-    N_ARGUMENTS,
+    N_ARGUMENT,
 };
 
 /**
@@ -57,7 +57,7 @@ struct Node *IdentifierNode_new(struct Token *token);
 char *IdentifierNode_name(struct Node *node, struct Environment *env);
 
 /**
- * @brief Creates a new assignment node
+ * @brief Creates a new assignment node (a = b)
  * @param towhat To what is what assigned
  * @param what What is assigned to towhat
  * @token The assignment operators token, just for completeness
@@ -70,8 +70,17 @@ struct Node *AssignNode_new(struct Node *towhat, struct Token *token,
  */
 struct Node *NumberNode_new(struct Token *token);
 
+
+struct  Node *ArgumentNode_new(struct Vector *vector, struct Token *token);
+
+struct Node *FunctionNode_new(struct Vector *body, struct Node *args,
+                              struct Token *token);
+
 void IdentifierNode_repr(struct Node *, struct Environment *);
 void AssignNode_repr(struct Node *, struct Environment *);
 void NumberNode_repr(struct Node *, struct Environment *);
+void ArgumentNode_repr(struct Node *, struct Environment *);
+void FunctionNode_repr(struct Node *, struct Environment *);
+
 
 #endif

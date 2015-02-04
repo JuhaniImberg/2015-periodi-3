@@ -5,6 +5,8 @@ struct Parser *Parser_new(struct Vector *tokens) {
     struct Parser *parser = (struct Parser *)malloc(sizeof(struct Parser));
     parser->tokens = tokens;
     parser->pos = 0;
+    parser->indent_pos = 0;
+    parser->last_nl = false;
     parser->prefix = Map_new();
     parser->prefix->copy_value = false;
     parser->infix = Map_new();
@@ -13,8 +15,10 @@ struct Parser *Parser_new(struct Vector *tokens) {
 
     Parser_add_prefix(parser, T_IDENTIFIER, identifier_parser);
     Parser_add_prefix(parser, T_NUMBER, number_parser);
+    Parser_add_prefix(parser, T_LPAREN, argument_parser);
 
     Parser_add_infix(parser, T_SET, assign_parser);
+    Parser_add_infix(parser, T_FN, function_parser);
 
     Parser_add_precedence(parser, T_SET, 1);
     Parser_add_precedence(parser, T_FN, 1);
@@ -64,11 +68,40 @@ InfixParser Parser_get_infix(struct Parser *parser, enum TokenTypeEnum type) {
                                 sizeof(enum TokenTypeEnum));
 }
 
+int Parser_increase_indentation(struct Parser *parser) {
+    parser->indent_pos += 2;
+    return parser->indent_pos;
+}
+
+void Parser_decrease_indentation(struct Parser *parser) {
+    ASSERT(parser->indent_pos < 2, "Can't decrease indentation more");
+    parser->indent_pos -= 2;
+}
+
+bool Parser_has_indentation(struct Parser *parser, unsigned int pos) {
+    struct Token *token = Parser_current(parser);
+    if(token->type->id == T_EOL) {
+        Parser_consume(parser);
+    }
+    token = Parser_current(parser);
+    if(token->type->id == T_INDENT && Token_length(token) >= pos) {
+        return true;
+    }
+    return false;
+}
 
 struct Node *Parser_parse_node(struct Parser *parser, int precedence) {
     struct Token *token = Parser_consume(parser);
 
+    if(parser->last_nl && token->type->id == T_INDENT) {
+        ASSERT(Token_length(token) != parser->indent_pos,
+               "Incorrect indentation");
+        token = Parser_consume(parser);
+        parser->last_nl = false;
+    }
+
     if(token == NULL || token->type->id == T_EOL) {
+        parser->last_nl = true;
         return NULL;
     }
 

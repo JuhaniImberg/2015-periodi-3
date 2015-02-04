@@ -56,6 +56,24 @@ struct Node *NumberNode_new(struct Token *token) {
     return node;
 }
 
+struct Node *ArgumentNode_new(struct Vector *vector, struct Token *token) {
+    struct Node *node = Node_new(N_ARGUMENT);
+    node->start = token;
+    node->vector = vector;
+    node->repr = ArgumentNode_repr;
+    return node;
+}
+
+struct Node *FunctionNode_new(struct Vector *body, struct Node *args,
+                              struct Token *token) {
+    struct Node *node = Node_new(N_FUNCTION);
+    node->left = args;
+    node->vector = body;
+    node->start = token;
+    node->repr = FunctionNode_repr;
+    return node;
+}
+
 void IdentifierNode_repr(struct Node *node, struct Environment *env) {
     char *content = Token_content(node->start, env->src);
     printf("%s", content);
@@ -72,4 +90,32 @@ void AssignNode_repr(struct Node *node, struct Environment *env) {
 void NumberNode_repr(struct Node *node, struct Environment *env) {
     char *content = Token_content(node->start, env->src);
     printf("%s", content);
+}
+
+void ArgumentNode_repr(struct Node *node, struct Environment *env) {
+    size_t i, len = Vector_size(node->vector);
+    printf("[");
+    for(i = 0; i < len; i++) {
+        struct Node *nd = Vector_get(node->vector, i);
+        nd->repr(nd, env);
+        if(i + 1 < len) {
+            printf(", ");
+        }
+    }
+    printf("]");
+}
+
+void FunctionNode_repr(struct Node *node, struct Environment *env) {
+    printf("(fn ");
+    node->left->repr(node->left, env);
+    printf(" [");
+    size_t i, len = Vector_size(node->vector);
+    for(i = 0; i < len; i++) {
+        struct Node *nd = Vector_get(node->vector, i);
+        nd->repr(nd, env);
+        if(i + 1 < len) {
+            printf(", ");
+        }
+    }
+    printf("])");
 }

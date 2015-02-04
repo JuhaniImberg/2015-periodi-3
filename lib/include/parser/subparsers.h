@@ -16,4 +16,8 @@ struct Node *number_parser(struct Parser *parser,
 struct Node *argument_parser(struct Parser *parser,
                              struct Token *token);
 
+struct Node *function_parser(struct Parser *parser,
+                             struct Node *left,
+                             struct Token *token);
+
 #endif

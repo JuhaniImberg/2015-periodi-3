@@ -7,6 +7,7 @@
 enum TokenTypeEnum {
     T_LPAREN,     // (
     T_RPAREN,     // )
+    T_COMMA,      // ,
     T_LBRACKET,   // [
     T_RBRACKET,   // ]
     T_FN,         // ->
@@ -48,6 +49,7 @@ struct TTMatcher {
 static const struct TokenType token_types_raw[] = {
     {T_LPAREN, "lparen", "\\(", NULL},
     {T_RPAREN, "rparen", "\\)", NULL},
+    {T_COMMA, "comma", ",", NULL},
     {T_LBRACKET, "lbracket", "\\[", NULL},
     {T_RBRACKET, "rbracket", "\\]", NULL},
     {T_FN, "fn", "\\->", NULL},

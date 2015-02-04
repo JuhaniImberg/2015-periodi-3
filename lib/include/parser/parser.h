@@ -17,6 +17,8 @@ struct Parser {
     struct Map *precedences;
     struct Vector *tokens;
     unsigned int pos;
+    bool last_nl;
+    unsigned int indent_pos;
 };
 
 /**
@@ -60,6 +62,10 @@ void Parser_add_infix(struct Parser *parser, enum TokenTypeEnum type,
  */
 void Parser_add_prefix(struct Parser *parser, enum TokenTypeEnum type,
                        PrefixParser prefix);
+
+int Parser_increase_indentation(struct Parser *parser);
+void Parser_decrease_indentation(struct Parser *parser);
+bool Parser_has_indentation(struct Parser *parser, unsigned int pos);
 
 /**
  * @brief Parses the tokens to form a node expression that's made out of
