@@ -14,14 +14,12 @@ Unresolved things
 How is the program progressing
 ------------------------------
 
-* Parser is starting to look pretty good
-  * Basic things are done
-  * for/if needs to be thought of a bit before implemented
+* Parser is mostly done
 * The abstract syntax trees nodes work, a tree can be printed based on the source code
-* Some refactoring
+* Some re-factoring
 
 What will I do next
 -------------------
 
-* Start with the interpreter
+* Start the interpreter
 * Tests for the parser
