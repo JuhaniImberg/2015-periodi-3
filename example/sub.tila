@@ -1,3 +1,6 @@
 stuff = [42, 36, 72]
 main = (args) ->
   a = b + c * d % e - f / g
+  3 == 2 ?
+    print("HELLOOOO")
+    print("WOOOORLD")

@@ -17,7 +17,8 @@ enum NodeTypeEnum {
     N_ARGUMENT,
     N_LIST,
     N_INFIX_OPERATOR,
-    N_LIST_ACCESS
+    N_LIST_ACCESS,
+    N_CONDITIONAL
 };
 
 /**
@@ -112,6 +113,9 @@ struct Node *InfixOperatorNode_new(struct Node *left, struct Token *token,
                                    struct Node *right);
 struct Node *ListAccessNode_new(struct Node *left, struct Token *token,
                                 struct Node *pos);
+struct Node *ConditionalNode_new(struct Node *condition, struct Token *token,
+                                 struct Vector *body);
+
 
 void IdentifierNode_repr(struct Node *, struct Environment *);
 void AssignNode_repr(struct Node *, struct Environment *);
@@ -123,5 +127,6 @@ void CallNode_repr(struct Node *, struct Environment *);
 void ListNode_repr(struct Node *, struct Environment *);
 void InfixOperatorNode_repr(struct Node *, struct Environment *);
 void ListAccessNode_repr(struct Node *, struct Environment *);
+void ConditionalNode_repr(struct Node *, struct Environment *);
 
 #endif

@@ -125,6 +125,16 @@ struct Node *ListAccessNode_new(struct Node *left, struct Token *token,
     return node;
 }
 
+struct Node *ConditionalNode_new(struct Node *condition, struct Token *token,
+                                 struct Vector *body) {
+    struct Node *node = Node_new(N_CONDITIONAL);
+    node->repr = ConditionalNode_repr;
+    node->left = condition;
+    node->vector = body;
+    node->start = token;
+    return node;
+}
+
 void IdentifierNode_repr(struct Node *node, struct Environment *env) {
     char *content = Token_content(node->start, env->src);
     printf("%s", content);
@@ -191,4 +201,12 @@ void ListAccessNode_repr(struct Node *node, struct Environment *env) {
     printf("[");
     node->right->repr(node->right, env);
     printf("]");
+}
+
+void ConditionalNode_repr(struct Node *node, struct Environment *env) {
+    printf("(if ");
+    node->left->repr(node->left, env);
+    printf(" ");
+    ListNode_repr(node, env);
+    printf(")");
 }

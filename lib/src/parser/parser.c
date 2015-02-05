@@ -23,6 +23,7 @@ struct Parser *Parser_new(struct Vector *tokens) {
     Parser_add_infix(parser, T_FN, function_parser);
     Parser_add_infix(parser, T_LPAREN, call_parser);
     Parser_add_infix(parser, T_LBRACKET, list_access_parser);
+    Parser_add_infix(parser, T_COND, conditional_parser);
 
     Parser_add_infix(parser, T_ADD, infix_operator_parser);
     Parser_add_infix(parser, T_SUB, infix_operator_parser);
@@ -55,6 +56,7 @@ struct Parser *Parser_new(struct Vector *tokens) {
     Parser_add_precedence(parser, T_MOD, 7);
     Parser_add_precedence(parser, T_LBRACKET, 10);
     Parser_add_precedence(parser, T_LPAREN, 10);
+    Parser_add_precedence(parser, T_COND, 1);
 
     return parser;
 }
@@ -104,6 +106,9 @@ bool Parser_has_indentation(struct Parser *parser, unsigned int pos) {
         Parser_consume(parser);
     }
     token = Parser_current(parser);
+    if(token == NULL) {
+        return false;
+    }
     if(token->type->id == T_INDENT && Token_length(token) >= pos) {
         return true;
     }
@@ -177,6 +182,9 @@ bool Parser_done(struct Parser *parser) {
 
 int Parser_precedence(struct Parser *parser) {
     struct Token *token = Parser_current(parser);
+    if(token == NULL) {
+        return -1;
+    }
     void *val = Map_get(parser->precedences, &token->type->id,
                         sizeof(enum TokenTypeEnum));
     if(val == NULL) {

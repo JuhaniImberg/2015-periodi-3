@@ -98,3 +98,24 @@ struct Node *list_access_parser(struct Parser *parser,
     Parser_require(parser, T_RBRACKET);
     return ListAccessNode_new(left, token, pos);
 }
+
+struct Node *conditional_parser(struct Parser *parser,
+                                struct Node *condition,
+                                struct Token *token) {
+    struct Vector *body = Vector_new();
+    unsigned int our_indent = Parser_increase_indentation(parser);
+    struct Node *node = Parser_parse_node(parser, 0);
+    if(node != NULL) {
+        Vector_push(body, node);
+    } else {
+        while(Parser_has_indentation(parser, our_indent)) {
+            node = Parser_parse_node(parser, 0);
+            if(node != NULL) {
+                Vector_push(body, node);
+            }
+        }
+    }
+    Parser_decrease_indentation(parser);
+
+    return ConditionalNode_new(condition, token, body);
+}
