@@ -28,6 +28,15 @@ struct Parser *Parser_new(struct Vector *tokens) {
     Parser_add_infix(parser, T_SUB, infix_operator_parser);
     Parser_add_infix(parser, T_MUL, infix_operator_parser);
     Parser_add_infix(parser, T_DIV, infix_operator_parser);
+    Parser_add_infix(parser, T_MOD, infix_operator_parser);
+    Parser_add_infix(parser, T_EQ, infix_operator_parser);
+    Parser_add_infix(parser, T_NOTEQ, infix_operator_parser);
+    Parser_add_infix(parser, T_GT, infix_operator_parser);
+    Parser_add_infix(parser, T_LT, infix_operator_parser);
+    Parser_add_infix(parser, T_GTOE, infix_operator_parser);
+    Parser_add_infix(parser, T_LTOE, infix_operator_parser);
+    Parser_add_infix(parser, T_OR, infix_operator_parser);
+    Parser_add_infix(parser, T_AND, infix_operator_parser);
 
     Parser_add_precedence(parser, T_SET, 1);
     Parser_add_precedence(parser, T_FN, 1);
@@ -43,6 +52,7 @@ struct Parser *Parser_new(struct Vector *tokens) {
     Parser_add_precedence(parser, T_SUB, 6);
     Parser_add_precedence(parser, T_DIV, 7);
     Parser_add_precedence(parser, T_MUL, 7);
+    Parser_add_precedence(parser, T_MOD, 7);
     Parser_add_precedence(parser, T_LBRACKET, 10);
     Parser_add_precedence(parser, T_LPAREN, 10);
 

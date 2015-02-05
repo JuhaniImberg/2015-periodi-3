@@ -84,7 +84,10 @@ struct Node *list_parser(struct Parser *parser,
 struct Node *infix_operator_parser(struct Parser *parser,
                                    struct Node *left,
                                    struct Token *token) {
-    struct Node *right = Parser_parse_node(parser, 0);
+    int prec = *(int *)Map_get(parser->precedences,
+                               &token->type->id,
+                               sizeof(enum TokenTypeEnum));
+    struct Node *right = Parser_parse_node(parser, prec);
     return InfixOperatorNode_new(left, token, right);
 }
 

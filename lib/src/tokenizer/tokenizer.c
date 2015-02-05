@@ -150,6 +150,7 @@ void Tokenizer_tokenize(struct Tokenizer *ti) {
         case ']':
         case '!':
         case ',':
+        case '%':
             Tokenizer_add_new(ti);
             Tokenizer_add_to_last(ti);
             break;

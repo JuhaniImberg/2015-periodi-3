@@ -11,14 +11,10 @@ Progress
 --------
 
 - [x] Tokenizer
-- [ ] Base parser
-  - [x] Basic stuff
-  - [ ] Whitespace
+- [x] Base parser
 - [ ] Sub parsers
-  - [x] Identifier
-  - [x] Assign
-  - [x] Number
-  - [ ] The rest
+  - [x] Basic infix and prefix stuff
+  - [ ] For, if etc (macros?)
 - [ ] Abstract syntax tree
 - [ ] Environment
 - [ ] Built in library

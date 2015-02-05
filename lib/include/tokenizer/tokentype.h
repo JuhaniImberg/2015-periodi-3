@@ -15,6 +15,7 @@ enum TokenTypeEnum {
     T_SUB,        // -
     T_MUL,        // *
     T_DIV,        // /
+    T_MOD,        // %
     T_SET,        // =
     T_EQ,         // ==
     T_NOTEQ,      // !=
@@ -57,6 +58,7 @@ static const struct TokenType token_types_raw[] = {
     {T_SUB, "sub", "\\-", NULL},
     {T_MUL, "mul", "\\*", NULL},
     {T_DIV, "div", "\\/", NULL},
+    {T_MOD, "mod", "%", NULL},
     {T_SET, "set", "=", NULL},
     {T_EQ, "eq", "==", NULL},
     {T_NOTEQ, "noteq", "\\!=", NULL},
