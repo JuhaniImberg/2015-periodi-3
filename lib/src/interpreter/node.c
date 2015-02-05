@@ -97,17 +97,41 @@ struct Node *CallNode_new(struct Node *what, struct Token *token,
     return node;
 }
 
+struct Node *ListNode_new(struct Vector *nodes, struct Token *token) {
+    struct Node *node = Node_new(N_LIST);
+    node->vector = nodes;
+    node->start = token;
+    node->repr = ListNode_repr;
+    return node;
+}
+
+struct Node *InfixOperatorNode_new(struct Node *left, struct Token *token,
+                                   struct Node *right) {
+    struct Node *node = Node_new(N_INFIX_OPERATOR);
+    node->left = left;
+    node->start = token;
+    node->right = right;
+    node->repr = InfixOperatorNode_repr;
+    return node;
+}
+
+struct Node *ListAccessNode_new(struct Node *left, struct Token *token,
+                                struct Node *pos) {
+    struct Node *node = Node_new(N_LIST_ACCESS);
+    node->left = left;
+    node->start = token;
+    node->right = pos;
+    node->repr = ListAccessNode_repr;
+    return node;
+}
+
 void IdentifierNode_repr(struct Node *node, struct Environment *env) {
     char *content = Token_content(node->start, env->src);
     printf("%s", content);
 }
 
 void AssignNode_repr(struct Node *node, struct Environment *env) {
-    printf("(");
-    node->left->repr(node->left, env);
-    printf(" = ");
-    node->right->repr(node->right, env);
-    printf(")");
+    InfixOperatorNode_repr(node, env);
 }
 
 void NumberNode_repr(struct Node *node, struct Environment *env) {
@@ -121,8 +145,28 @@ void StringNode_repr(struct Node *node, struct Environment *env) {
 }
 
 void ArgumentNode_repr(struct Node *node, struct Environment *env) {
-    size_t i, len = Vector_size(node->vector);
+    ListNode_repr(node, env);
+}
+
+void FunctionNode_repr(struct Node *node, struct Environment *env) {
+    printf("(fn ");
+    node->left->repr(node->left, env);
+    printf(" ");
+    ListNode_repr(node, env);
+    printf(")");
+}
+
+void CallNode_repr(struct Node *node, struct Environment *env) {
+    printf("(");
+    node->left->repr(node->left, env);
+    printf(" ");
+    ListNode_repr(node, env);
+    printf(")");
+}
+
+void ListNode_repr(struct Node *node, struct Environment *env) {
     printf("[");
+    size_t i, len = Vector_size(node->vector);
     for(i = 0; i < len; i++) {
         struct Node *nd = Vector_get(node->vector, i);
         nd->repr(nd, env);
@@ -133,32 +177,18 @@ void ArgumentNode_repr(struct Node *node, struct Environment *env) {
     printf("]");
 }
 
-void FunctionNode_repr(struct Node *node, struct Environment *env) {
-    printf("(fn ");
+void InfixOperatorNode_repr(struct Node *node, struct Environment *env) {
+    printf("(");
+    printf("%s ", Token_content(node->start, env->src));
     node->left->repr(node->left, env);
-    printf(" [");
-    size_t i, len = Vector_size(node->vector);
-    for(i = 0; i < len; i++) {
-        struct Node *nd = Vector_get(node->vector, i);
-        nd->repr(nd, env);
-        if(i + 1 < len) {
-            printf(", ");
-        }
-    }
-    printf("])");
+    printf(" ");
+    node->right->repr(node->right, env);
+    printf(")");
 }
 
-void CallNode_repr(struct Node *node, struct Environment *env) {
-    printf("(");
+void ListAccessNode_repr(struct Node *node, struct Environment *env) {
     node->left->repr(node->left, env);
-    printf(" [");
-    size_t i, len = Vector_size(node->vector);
-    for(i = 0; i < len; i++) {
-        struct Node *nd = Vector_get(node->vector, i);
-        nd->repr(nd, env);
-        if(i + 1 < len) {
-            printf(", ");
-        }
-    }
-    printf(")");
+    printf("[");
+    node->right->repr(node->right, env);
+    printf("]");
 }

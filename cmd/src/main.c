@@ -46,6 +46,7 @@ int main(int argc, char **argv) {
             if(node != NULL) {
                 // Call the repr function of each node that we got
                 node->repr(node, env);
+                printf("\n");
                 Node_delete(node);
             }
         }

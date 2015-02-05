@@ -66,3 +66,32 @@ struct Node *call_parser(struct Parser *parser,
     }
     return CallNode_new(left, token, vector);
 }
+
+struct Node *list_parser(struct Parser *parser,
+                         struct Token *token) {
+    struct Vector *vector = Vector_new();
+    while(!Parser_match(parser, T_RBRACKET)) {
+        do {
+            struct Node *node = Parser_parse_node(parser, 0);
+            if(node != NULL) {
+                Vector_push(vector, node);
+            }
+        } while(Parser_match(parser, T_COMMA));
+    }
+    return ListNode_new(vector, token);
+}
+
+struct Node *infix_operator_parser(struct Parser *parser,
+                                   struct Node *left,
+                                   struct Token *token) {
+    struct Node *right = Parser_parse_node(parser, 0);
+    return InfixOperatorNode_new(left, token, right);
+}
+
+struct Node *list_access_parser(struct Parser *parser,
+                                struct Node *left,
+                                struct Token *token) {
+    struct Node *pos = Parser_parse_node(parser, 0);
+    Parser_require(parser, T_RBRACKET);
+    return ListAccessNode_new(left, token, pos);
+}

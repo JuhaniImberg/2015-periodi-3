@@ -17,10 +17,17 @@ struct Parser *Parser_new(struct Vector *tokens) {
     Parser_add_prefix(parser, T_NUMBER, number_parser);
     Parser_add_prefix(parser, T_LPAREN, argument_parser);
     Parser_add_prefix(parser, T_STRING, string_parser);
+    Parser_add_prefix(parser, T_LBRACKET, list_parser);
 
     Parser_add_infix(parser, T_SET, assign_parser);
     Parser_add_infix(parser, T_FN, function_parser);
     Parser_add_infix(parser, T_LPAREN, call_parser);
+    Parser_add_infix(parser, T_LBRACKET, list_access_parser);
+
+    Parser_add_infix(parser, T_ADD, infix_operator_parser);
+    Parser_add_infix(parser, T_SUB, infix_operator_parser);
+    Parser_add_infix(parser, T_MUL, infix_operator_parser);
+    Parser_add_infix(parser, T_DIV, infix_operator_parser);
 
     Parser_add_precedence(parser, T_SET, 1);
     Parser_add_precedence(parser, T_FN, 1);

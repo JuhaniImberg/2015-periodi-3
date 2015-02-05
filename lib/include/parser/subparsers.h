@@ -48,4 +48,15 @@ struct Node *call_parser(struct Parser *parser,
                          struct Node *left,
                          struct Token *token);
 
+struct Node *list_parser(struct Parser *parser,
+                         struct Token *token);
+
+struct Node *infix_operator_parser(struct Parser *parser,
+                                   struct Node *left,
+                                   struct Token *token);
+
+struct Node *list_access_parser(struct Parser *parser,
+                                struct Node *left,
+                                struct Token *token);
+
 #endif

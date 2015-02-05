@@ -91,6 +91,19 @@ START_TEST (test_vector_stack)
 }
 END_TEST
 
+START_TEST (test_vector_each)
+{
+    struct Vector *vector = Vector_new();
+    void *a = malloc(sizeof(int) * 10);
+    void *b = malloc(sizeof(int) * 100);
+    Vector_push(vector, a);
+    Vector_push(vector, b);
+    Vector_each(vector, free);
+    Vector_clear(vector);
+    Vector_delete(vector);
+}
+END_TEST
+
 Suite *vector_suite() {
     Suite *suite = suite_create("vector_suite");
     TCase *tcase = tcase_create("case");
@@ -100,6 +113,7 @@ Suite *vector_suite() {
     tcase_add_test(tcase, test_vector_resize);
     tcase_add_test(tcase, test_vector_insert);
     tcase_add_test(tcase, test_vector_stack);
+    tcase_add_test(tcase, test_vector_each);
 
     suite_add_tcase(suite, tcase);
     return suite;

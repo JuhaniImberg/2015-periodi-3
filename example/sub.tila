@@ -1,0 +1,3 @@
+stuff = [42, 36, 72]
+main = (args) ->
+  print(stuff[0] + args[0])

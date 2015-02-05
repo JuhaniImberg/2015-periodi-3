@@ -15,6 +15,9 @@ enum NodeTypeEnum {
     N_ASSIGN,
     N_CALL,
     N_ARGUMENT,
+    N_LIST,
+    N_INFIX_OPERATOR,
+    N_LIST_ACCESS
 };
 
 /**
@@ -104,6 +107,12 @@ struct Node *FunctionNode_new(struct Vector *body, struct Node *args,
 struct Node *CallNode_new(struct Node *what, struct Token *token,
                           struct Vector *args);
 
+struct Node *ListNode_new(struct Vector *nodes, struct Token *token);
+struct Node *InfixOperatorNode_new(struct Node *left, struct Token *token,
+                                   struct Node *right);
+struct Node *ListAccessNode_new(struct Node *left, struct Token *token,
+                                struct Node *pos);
+
 void IdentifierNode_repr(struct Node *, struct Environment *);
 void AssignNode_repr(struct Node *, struct Environment *);
 void NumberNode_repr(struct Node *, struct Environment *);
@@ -111,6 +120,8 @@ void StringNode_repr(struct Node *, struct Environment *);
 void ArgumentNode_repr(struct Node *, struct Environment *);
 void FunctionNode_repr(struct Node *, struct Environment *);
 void CallNode_repr(struct Node *, struct Environment *);
-
+void ListNode_repr(struct Node *, struct Environment *);
+void InfixOperatorNode_repr(struct Node *, struct Environment *);
+void ListAccessNode_repr(struct Node *, struct Environment *);
 
 #endif
