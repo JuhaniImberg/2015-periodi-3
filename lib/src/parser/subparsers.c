@@ -15,7 +15,10 @@ struct Node *assign_parser(struct Parser *parser,
 
 struct Node *number_parser(struct Parser *parser __attribute__((unused)),
                            struct Token *token) {
-    return NumberNode_new(token);
+    char *content = Token_content(token, parser->src);
+    long long value;
+    sscanf(content, "%lld", &value);
+    return NumberNode_new(token, value);
 }
 
 struct Node *string_parser(struct Parser *parser __attribute__((unused)),

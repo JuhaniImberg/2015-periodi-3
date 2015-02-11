@@ -1,9 +1,10 @@
 #include "tila.h"
 #include "parser/subparsers.h"
 
-struct Parser *Parser_new(struct Vector *tokens) {
+struct Parser *Parser_new(struct Vector *tokens, char *src) {
     struct Parser *parser = (struct Parser *)malloc(sizeof(struct Parser));
     parser->tokens = tokens;
+    parser->src = src;
     parser->pos = 0;
     parser->indent_pos = 0;
     parser->last_nl = false;

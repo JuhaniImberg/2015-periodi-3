@@ -29,8 +29,11 @@ enum NodeTypeEnum {
  *        lvalue
  * @field left If the node happens to be an infix operator this will be the
  *        rvalue
+ * @field data Used to store arbitrary data in the node
  * @field get_value This method will be used for getting the nodes current value
  *                  in a given environment
+ * @field marked Has the node been marked as safe from the GC for this round
+ * @field next The next node that has been allocated
  */
 struct Node {
     enum NodeTypeEnum type;
@@ -38,8 +41,12 @@ struct Node {
     struct Node *left;
     struct Node *right;
     struct Vector *vector;
+    void *data;
     struct Node *(*get_value)(struct Node *, struct Environment *environment);
     void (*repr)(struct Node *, struct Environment *environment);
+
+    bool marked;
+    struct Node *next;
 };
 
 /**
@@ -48,85 +55,27 @@ struct Node {
  */
 struct Node *Node_new(enum NodeTypeEnum type);
 
+void Node_mark(struct Node *node);
+
+void Node_mark_void_pointer(void *node);
+
 /**
  * @brief Deletes a node
  */
 void Node_delete(struct Node *node);
 
-/**
- * @brief Creates a new identifier node
- * @param token The token that is the actual identifier
- */
-struct Node *IdentifierNode_new(struct Token *token);
-char *IdentifierNode_name(struct Node *node, struct Environment *env);
+void Node_delete_void_pointer(void *data);
 
-/**
- * @brief Creates a new assignment node (a = b)
- * @param towhat To what is what assigned
- * @param what What is assigned to towhat
- * @token The assignment operators token, just for completeness
- */
-struct Node *AssignNode_new(struct Node *towhat, struct Token *token,
-                            struct Node *what);
-
-/**
- * @brief Creates a new number node
- * @param token The token that holds the number inside
- */
-struct Node *NumberNode_new(struct Token *token);
-
-/**
- * @brief Creates a new string node
- * @param token The token that holds the string inside
- */
-struct Node *StringNode_new(struct Token *token);
-
-/**
- * @brief Creates a new argument node, for use with defining functions
- * @param vector Vector of the arguments that have been given
- * @param token The token that marks the start of this node
- */
-struct  Node *ArgumentNode_new(struct Vector *vector, struct Token *token);
-
-/**
- * @brief Creates a new function node, represents a function
- * @param body A vector of the nodes that are under this one
- * @param args An ArgumentNode that has the arguments that are passed to this
- *             function when called
- * @param token The token that marks the start of this node
- */
-struct Node *FunctionNode_new(struct Vector *body, struct Node *args,
-                              struct Token *token);
-
-/**
- * @brief Creates a new calling node, a node that calls its identifier with a
- *        list of arguments
- * @param What The node that's value will be called
- * @param token The token that represents the start of this node
- * @param args A list of arguments that get passed to the function that's called
- */
-struct Node *CallNode_new(struct Node *what, struct Token *token,
-                          struct Vector *args);
-
-struct Node *ListNode_new(struct Vector *nodes, struct Token *token);
-struct Node *InfixOperatorNode_new(struct Node *left, struct Token *token,
-                                   struct Node *right);
-struct Node *ListAccessNode_new(struct Node *left, struct Token *token,
-                                struct Node *pos);
-struct Node *ConditionalNode_new(struct Node *condition, struct Token *token,
-                                 struct Vector *body);
-
-
-void IdentifierNode_repr(struct Node *, struct Environment *);
-void AssignNode_repr(struct Node *, struct Environment *);
-void NumberNode_repr(struct Node *, struct Environment *);
-void StringNode_repr(struct Node *, struct Environment *);
-void ArgumentNode_repr(struct Node *, struct Environment *);
-void FunctionNode_repr(struct Node *, struct Environment *);
-void CallNode_repr(struct Node *, struct Environment *);
-void ListNode_repr(struct Node *, struct Environment *);
-void InfixOperatorNode_repr(struct Node *, struct Environment *);
-void ListAccessNode_repr(struct Node *, struct Environment *);
-void ConditionalNode_repr(struct Node *, struct Environment *);
+#include "argumentnode.h"
+#include "assignnode.h"
+#include "callnode.h"
+#include "conditionalnode.h"
+#include "functionnode.h"
+#include "identifiernode.h"
+#include "infixoperatornode.h"
+#include "listaccessnode.h"
+#include "listnode.h"
+#include "numbernode.h"
+#include "stringnode.h"
 
 #endif

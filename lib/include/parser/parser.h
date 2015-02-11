@@ -10,6 +10,7 @@
  * @field precedences A map of the infix parsers precedences
  * @field tokens A vector of the tokens that the parser uses
  * @field pos The position in the vector that is currently being used
+ * @field src The source code of the tokens that are being parsed
  */
 struct Parser {
     struct Map *prefix;
@@ -19,6 +20,7 @@ struct Parser {
     unsigned int pos;
     bool last_nl;
     unsigned int indent_pos;
+    char *src;
 };
 
 /**
@@ -36,8 +38,9 @@ typedef struct Node *(*InfixParser)(struct Parser *parser,
 /**
  * @brief Creates a new parser
  * @param tokens The tokens the parser will use
+ * @param src The source code that contains the tokens
  */
-struct Parser *Parser_new(struct Vector *tokens);
+struct Parser *Parser_new(struct Vector *tokens, char *src);
 
 /**
  * @brief Adds information about an infix parsers precedence

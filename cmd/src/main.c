@@ -35,10 +35,12 @@ int main(int argc, char **argv) {
         }
 
         // Parser parses the tokens into a tree
-        struct Parser *parser = Parser_new(ti->tokens);
+        struct Parser *parser = Parser_new(ti->tokens, source);
         // Environment describes the environment where the program is run,
         // the current context and so on
         struct Environment *env = Environment_new(source);
+
+        struct Vector *nodes = Vector_new();
 
         // While there are things to parse
         while(!Parser_done(parser)) {
@@ -47,9 +49,19 @@ int main(int argc, char **argv) {
                 // Call the repr function of each node that we got
                 node->repr(node, env);
                 printf("\n");
-                Node_delete(node);
+                if(node->get_value != NULL) {
+                    struct Node *res = node->get_value(node, env);
+                    if(res != NULL) {
+                        res->repr(res, env);
+                    } else {
+                        printf("null");
+                    }
+                    printf("\n");
+                }
+                Vector_push(nodes, node);
             }
         }
+        Vector_each(nodes, Node_delete_void_pointer);
 
         Parser_delete(parser);
         Environment_delete(env);
