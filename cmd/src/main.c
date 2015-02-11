@@ -34,13 +34,13 @@ int main(int argc, char **argv) {
             Token_print((struct Token *)Vector_get(ti->tokens, i), source);
         }
 
+        struct GC *gc = GC_new();
+
         // Parser parses the tokens into a tree
-        struct Parser *parser = Parser_new(ti->tokens, source);
+        struct Parser *parser = Parser_new(ti->tokens, gc, source);
         // Environment describes the environment where the program is run,
         // the current context and so on
-        struct Environment *env = Environment_new(source);
-
-        struct Vector *nodes = Vector_new();
+        struct Environment *env = Environment_new(gc, source);
 
         // While there are things to parse
         while(!Parser_done(parser)) {
@@ -58,14 +58,13 @@ int main(int argc, char **argv) {
                     }
                     printf("\n");
                 }
-                Vector_push(nodes, node);
             }
         }
-        Vector_each(nodes, Node_delete_void_pointer);
 
         Parser_delete(parser);
         Environment_delete(env);
         Tokenizer_delete(ti);
+        GC_delete(gc);
     }
     return 0;
 }

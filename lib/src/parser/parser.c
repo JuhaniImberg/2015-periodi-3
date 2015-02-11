@@ -1,10 +1,11 @@
 #include "tila.h"
 #include "parser/subparsers.h"
 
-struct Parser *Parser_new(struct Vector *tokens, char *src) {
+struct Parser *Parser_new(struct Vector *tokens, struct GC *gc, char *src) {
     struct Parser *parser = (struct Parser *)malloc(sizeof(struct Parser));
     parser->tokens = tokens;
     parser->src = src;
+    parser->gc = gc;
     parser->pos = 0;
     parser->indent_pos = 0;
     parser->last_nl = false;
@@ -133,7 +134,7 @@ struct Node *Parser_parse_node(struct Parser *parser, int precedence) {
 
     PrefixParser prefix = Parser_get_prefix(parser, token->type->id);
     ASSERT(prefix == NULL, "Unexpected token %d:%d",
-           token->line, token->column)
+           token->line, token->column);
 
     struct Node *left = prefix(parser, token);
     while(precedence < Parser_precedence(parser)) {
@@ -141,7 +142,7 @@ struct Node *Parser_parse_node(struct Parser *parser, int precedence) {
 
         InfixParser infix = Parser_get_infix(parser, token->type->id);
         ASSERT(infix == NULL, "Unexpected token %d:%d",
-               token->line, token->column)
+               token->line, token->column);
 
         left = infix(parser, left, token);
     }

@@ -1,11 +1,10 @@
 #include "tila.h"
 
-struct Node *IdentifierNode_new(struct Token *token) {
+struct Node *IdentifierNode_new(struct Token *token, struct GC *gc) {
     ASSERT(token->type->id != T_IDENTIFIER, "Token not an identifier");
-    struct Node *node = Node_new(N_IDENTIFIER);
+    struct Node *node = Node_new(gc, token, N_IDENTIFIER);
     node->repr = IdentifierNode_repr;
     node->get_value = IdentifierNode_get_value;
-    node->start = token;
     return node;
 }
 

@@ -11,7 +11,7 @@
  * @param token The token that marks the start of this node
  */
 struct Node *FunctionNode_new(struct Vector *body, struct Node *args,
-                              struct Token *token);
+                              struct Token *token, struct GC *gc);
 
 void FunctionNode_repr(struct Node *, struct Environment *);
 

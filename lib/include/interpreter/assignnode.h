@@ -10,7 +10,7 @@
  * @token The assignment operators token, just for completeness
  */
 struct Node *AssignNode_new(struct Node *towhat, struct Token *token,
-                            struct Node *what);
+                            struct Node *what, struct GC *gc);
 
 void AssignNode_repr(struct Node *, struct Environment *);
 

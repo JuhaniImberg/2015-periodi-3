@@ -45,15 +45,20 @@ struct Node {
     struct Node *(*get_value)(struct Node *, struct Environment *environment);
     void (*repr)(struct Node *, struct Environment *environment);
 
+    struct GC *gc;
     bool marked;
     struct Node *next;
 };
 
 /**
  * @brief Creates a new node
+ * @param gc The garbage collector to be linked with
+ * @param token The token where the node starts in the source, optional
  * @param type The type of the node
  */
-struct Node *Node_new(enum NodeTypeEnum type);
+struct Node *Node_new(struct GC *gc,
+                      struct Token *start,
+                      enum NodeTypeEnum type);
 
 void Node_mark(struct Node *node);
 

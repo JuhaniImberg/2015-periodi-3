@@ -7,7 +7,7 @@
  * @brief Creates a new string node
  * @param token The token that holds the string inside
  */
-struct Node *StringNode_new(struct Token *token);
+struct Node *StringNode_new(struct Token *token, struct GC *gc);
 
 void StringNode_repr(struct Node *, struct Environment *);
 

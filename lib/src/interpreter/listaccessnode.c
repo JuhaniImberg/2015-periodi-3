@@ -1,10 +1,9 @@
 #include "tila.h"
 
 struct Node *ListAccessNode_new(struct Node *left, struct Token *token,
-                                struct Node *pos) {
-    struct Node *node = Node_new(N_LIST_ACCESS);
+                                struct Node *pos, struct GC *gc) {
+    struct Node *node = Node_new(gc, token, N_LIST_ACCESS);
     node->left = left;
-    node->start = token;
     node->right = pos;
     node->repr = ListAccessNode_repr;
     return node;

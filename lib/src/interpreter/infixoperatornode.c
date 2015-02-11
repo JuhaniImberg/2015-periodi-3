@@ -1,10 +1,9 @@
 #include "tila.h"
 
 struct Node *InfixOperatorNode_new(struct Node *left, struct Token *token,
-                                   struct Node *right) {
-    struct Node *node = Node_new(N_INFIX_OPERATOR);
+                                   struct Node *right, struct GC *gc) {
+    struct Node *node = Node_new(gc, token, N_INFIX_OPERATOR);
     node->left = left;
-    node->start = token;
     node->right = right;
     node->get_value = InfixOperatorNode_get_value;
     node->repr = InfixOperatorNode_repr;
@@ -65,7 +64,7 @@ struct Node *InfixOperatorNode_get_value(struct Node *node,
         default: // This should never be reached
             return NULL;
         }
-        return NumberNode_new(NULL, nval);
+        return NumberNode_new(NULL, nval, node->gc);
     }
     return NULL;
 }

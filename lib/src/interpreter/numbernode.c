@@ -1,13 +1,13 @@
 #include "tila.h"
 
-struct Node *NumberNode_new(struct Token *token, long long value) {
+struct Node *NumberNode_new(struct Token *token, long long value,
+                            struct GC *gc) {
     if(token != NULL) {
         ASSERT(token->type->id != T_NUMBER, "Token is not an number");
     }
-    struct Node *node = Node_new(N_NUMBER);
+    struct Node *node = Node_new(gc, token, N_NUMBER);
     node->repr = NumberNode_repr;
     node->get_value = NumberNode_get_value;
-    node->start = token;
     node->data = malloc(sizeof(long long));
     memcpy(node->data, &value, sizeof(long long));
     return node;

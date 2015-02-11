@@ -1,16 +1,18 @@
 #include "tila.h"
 
-struct Node *Node_new(enum NodeTypeEnum type) {
+struct Node *Node_new(struct GC *gc,
+                      struct Token *start,
+                      enum NodeTypeEnum type) {
     struct Node *node = malloc(sizeof(struct Node));
     node->type = type;
     node->vector = NULL;
     node->left = NULL;
     node->right = NULL;
-    node->start = NULL;
+    node->start = start;
     node->repr = NULL;
     node->data = NULL;
 
-    node->marked = false;
+    GC_add(gc, node);
 
     return node;
 }
@@ -39,12 +41,6 @@ void Node_delete(struct Node *node) {
     if(node->vector != NULL) {
         Vector_each(node->vector, Node_delete_void_pointer);
         Vector_delete(node->vector);
-    }
-    if(node->right != NULL) {
-        Node_delete(node->right);
-    }
-    if(node->left != NULL) {
-        Node_delete(node->left);
     }
     if(node->data != NULL) {
         free(node->data);

@@ -8,7 +8,8 @@
  * @param vector Vector of the arguments that have been given
  * @param token The token that marks the start of this node
  */
-struct  Node *ArgumentNode_new(struct Vector *vector, struct Token *token);
+struct  Node *ArgumentNode_new(struct Vector *vector, struct Token *token,
+                               struct GC *gc);
 
 void ArgumentNode_repr(struct Node *, struct Environment *);
 

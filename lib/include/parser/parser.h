@@ -21,6 +21,7 @@ struct Parser {
     bool last_nl;
     unsigned int indent_pos;
     char *src;
+    struct GC *gc;
 };
 
 /**
@@ -40,7 +41,7 @@ typedef struct Node *(*InfixParser)(struct Parser *parser,
  * @param tokens The tokens the parser will use
  * @param src The source code that contains the tokens
  */
-struct Parser *Parser_new(struct Vector *tokens, char *src);
+struct Parser *Parser_new(struct Vector *tokens, struct GC *gc, char *src);
 
 /**
  * @brief Adds information about an infix parsers precedence

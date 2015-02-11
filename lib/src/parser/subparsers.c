@@ -1,8 +1,8 @@
 #include "tila.h"
 
-struct Node *identifier_parser(struct Parser *parser __attribute__((unused)),
+struct Node *identifier_parser(struct Parser *parser,
                                struct Token *token) {
-    return IdentifierNode_new(token);
+    return IdentifierNode_new(token, parser->gc);
 }
 
 struct Node *assign_parser(struct Parser *parser,
@@ -10,20 +10,20 @@ struct Node *assign_parser(struct Parser *parser,
                            struct Token *token) {
     ASSERT(left->type != N_IDENTIFIER, "Left token must be an identifier");
     struct Node *right = Parser_parse_node(parser, 0);
-    return AssignNode_new(left, token, right);
+    return AssignNode_new(left, token, right, parser->gc);
 }
 
-struct Node *number_parser(struct Parser *parser __attribute__((unused)),
+struct Node *number_parser(struct Parser *parser,
                            struct Token *token) {
     char *content = Token_content(token, parser->src);
     long long value;
     sscanf(content, "%lld", &value);
-    return NumberNode_new(token, value);
+    return NumberNode_new(token, value, parser->gc);
 }
 
-struct Node *string_parser(struct Parser *parser __attribute__((unused)),
+struct Node *string_parser(struct Parser *parser,
                            struct Token *token) {
-    return StringNode_new(token);
+    return StringNode_new(token, parser->gc);
 }
 
 struct Node *argument_parser(struct Parser *parser,
@@ -34,7 +34,7 @@ struct Node *argument_parser(struct Parser *parser,
             Vector_push(vector, Parser_parse_node(parser, 0));
         } while(Parser_match(parser, T_COMMA));
     }
-    return ArgumentNode_new(vector, token);
+    return ArgumentNode_new(vector, token, parser->gc);
 }
 
 struct Node *function_parser(struct Parser *parser,
@@ -55,7 +55,7 @@ struct Node *function_parser(struct Parser *parser,
         }
     }
     Parser_decrease_indentation(parser);
-    return FunctionNode_new(body, left, token);
+    return FunctionNode_new(body, left, token, parser->gc);
 }
 
 struct Node *call_parser(struct Parser *parser,
@@ -67,7 +67,7 @@ struct Node *call_parser(struct Parser *parser,
             Vector_push(vector, Parser_parse_node(parser, 0));
         } while(Parser_match(parser, T_COMMA));
     }
-    return CallNode_new(left, token, vector);
+    return CallNode_new(left, token, vector, parser->gc);
 }
 
 struct Node *list_parser(struct Parser *parser,
@@ -81,7 +81,7 @@ struct Node *list_parser(struct Parser *parser,
             }
         } while(Parser_match(parser, T_COMMA));
     }
-    return ListNode_new(vector, token);
+    return ListNode_new(vector, token, parser->gc);
 }
 
 struct Node *infix_operator_parser(struct Parser *parser,
@@ -91,7 +91,7 @@ struct Node *infix_operator_parser(struct Parser *parser,
                                &token->type->id,
                                sizeof(enum TokenTypeEnum));
     struct Node *right = Parser_parse_node(parser, prec);
-    return InfixOperatorNode_new(left, token, right);
+    return InfixOperatorNode_new(left, token, right, parser->gc);
 }
 
 struct Node *list_access_parser(struct Parser *parser,
@@ -99,7 +99,7 @@ struct Node *list_access_parser(struct Parser *parser,
                                 struct Token *token) {
     struct Node *pos = Parser_parse_node(parser, 0);
     Parser_require(parser, T_RBRACKET);
-    return ListAccessNode_new(left, token, pos);
+    return ListAccessNode_new(left, token, pos, parser->gc);
 }
 
 struct Node *conditional_parser(struct Parser *parser,
@@ -120,5 +120,5 @@ struct Node *conditional_parser(struct Parser *parser,
     }
     Parser_decrease_indentation(parser);
 
-    return ConditionalNode_new(condition, token, body);
+    return ConditionalNode_new(condition, token, body, parser->gc);
 }

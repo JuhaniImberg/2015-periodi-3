@@ -4,7 +4,7 @@
 #include "tila.h"
 
 struct Node *InfixOperatorNode_new(struct Node *left, struct Token *token,
-                                   struct Node *right);
+                                   struct Node *right, struct GC *gc);
 
 void InfixOperatorNode_repr(struct Node *, struct Environment *);
 

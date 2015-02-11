@@ -1,12 +1,11 @@
 #include "tila.h"
 
 struct Node *AssignNode_new(struct Node *towhat, struct Token *token,
-                            struct Node *what) {
+                            struct Node *what, struct GC *gc) {
     ASSERT(towhat->type != N_IDENTIFIER, "lvalue is not an identifier");
-    struct Node *node = Node_new(N_ASSIGN);
+    struct Node *node = Node_new(gc, token, N_ASSIGN);
     node->repr = AssignNode_repr;
     node->get_value = AssignNode_get_value;
-    node->start = token;
     node->left = towhat;
     node->right = what;
     return node;

@@ -1,11 +1,10 @@
 #include "tila.h"
 
 struct Node *FunctionNode_new(struct Vector *body, struct Node *args,
-                              struct Token *token) {
-    struct Node *node = Node_new(N_FUNCTION);
+                              struct Token *token, struct GC *gc) {
+    struct Node *node = Node_new(gc, token, N_FUNCTION);
     node->left = args;
     node->vector = body;
-    node->start = token;
     node->repr = FunctionNode_repr;
     return node;
 }

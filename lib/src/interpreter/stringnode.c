@@ -1,10 +1,9 @@
 #include "tila.h"
 
-struct Node *StringNode_new(struct Token *token) {
+struct Node *StringNode_new(struct Token *token, struct GC *gc) {
     ASSERT(token->type->id != T_STRING, "Token is not a string");
-    struct Node *node = Node_new(N_STRING);
+    struct Node *node = Node_new(gc, token, N_STRING);
     node->repr = StringNode_repr;
-    node->start = token;
     return node;
 }
 

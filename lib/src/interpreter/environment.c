@@ -1,17 +1,31 @@
 #include "tila.h"
 
-struct Environment *Environment_new(char *src) {
+struct Environment *Environment_new(struct GC *gc, char *src) {
     struct Environment *env = malloc(sizeof(struct Environment));
     env->src = src;
     env->symbols = Map_new();
     env->parent = NULL;
+    env->gc = gc;
     return env;
 }
 
 struct Environment *Environment_new_sub(struct Environment *env) {
-    struct Environment *new = Environment_new(env->src);
+    struct Environment *new = Environment_new(env->gc, env->src);
     new->parent = env;
+    env->gc->env = new;
     return new;
+}
+
+void Environment_mark(struct Environment *env) {
+    struct MapEntry** entrys = Map_entrys(env->symbols);
+    for(size_t i = 0; i < env->symbols->size; i++) {
+        struct MapEntry *entry = entrys[i];
+        Node_mark(entry->value);
+    }
+    free(entrys);
+    if(env->parent != NULL) {
+        Environment_mark(env->parent);
+    }
 }
 
 struct Node *Environment_get(struct Environment *env,
@@ -36,6 +50,9 @@ bool Environment_contains(struct Environment *env,
 }
 
 void Environment_delete(struct Environment *env) {
+    if(env->parent != NULL && env->gc->env == env) {
+        env->gc->env = env->parent;
+    }
     Map_delete(env->symbols);
     free(env);
 }

@@ -22,6 +22,7 @@
 #include "tokenizer/tokenizer.h"
 #include "interpreter/node.h"
 #include "interpreter/environment.h"
+#include "interpreter/gc.h"
 #include "parser/parser.h"
 #include "parser/subparsers.h"
 

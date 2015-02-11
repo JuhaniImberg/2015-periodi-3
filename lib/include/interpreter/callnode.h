@@ -11,7 +11,7 @@
  * @param args A list of arguments that get passed to the function that's called
  */
 struct Node *CallNode_new(struct Node *what, struct Token *token,
-                          struct Vector *args);
+                          struct Vector *args, struct GC *gc);
 
 void CallNode_repr(struct Node *, struct Environment *);
 

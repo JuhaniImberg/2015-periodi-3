@@ -1,11 +1,10 @@
 #include "tila.h"
 
 struct Node *CallNode_new(struct Node *what, struct Token *token,
-                          struct Vector *args) {
-    struct Node *node = Node_new(N_CALL);
+                          struct Vector *args, struct GC *gc) {
+    struct Node *node = Node_new(gc, token, N_CALL);
     node->left = what;
     node->vector = args;
-    node->start = token;
     node->repr = CallNode_repr;
     return node;
 }

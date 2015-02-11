@@ -8,7 +8,8 @@
  * @param token The token that holds the number inside, optional
  * @param value The value of the number
  */
-struct Node *NumberNode_new(struct Token *token, long long value);
+struct Node *NumberNode_new(struct Token *token, long long value,
+                            struct GC *gc);
 
 void NumberNode_repr(struct Node *, struct Environment *);
 

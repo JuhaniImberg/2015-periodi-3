@@ -1,9 +1,9 @@
 #include "tila.h"
 
-struct Node *ListNode_new(struct Vector *nodes, struct Token *token) {
-    struct Node *node = Node_new(N_LIST);
+struct Node *ListNode_new(struct Vector *nodes, struct Token *token,
+                          struct GC *gc) {
+    struct Node *node = Node_new(gc, token, N_LIST);
     node->vector = nodes;
-    node->start = token;
     node->repr = ListNode_repr;
     return node;
 }

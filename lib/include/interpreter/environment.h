@@ -3,6 +3,7 @@
 
 #include "tila.h"
 #include "node.h"
+#include "gc.h"
 
 /**
  * @brief Holds the status of the interpreter
@@ -14,15 +15,18 @@ struct Environment {
     struct Environment *parent;
     struct Map *symbols;
     char *src;
+    struct GC *gc;
 };
 
 /**
  * @brief Creates a new environment
  * @field src The source code of the environment, for nodes to refer to
  */
-struct Environment *Environment_new(char *src);
+struct Environment *Environment_new(struct GC *gc, char *src);
 
 struct Environment *Environment_new_sub(struct Environment *env);
+
+void Environment_mark(struct Environment *env);
 
 struct Node *Environment_get(struct Environment *env,
                              char *key);
