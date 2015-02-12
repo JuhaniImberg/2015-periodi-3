@@ -15,8 +15,10 @@ Progress
 - [ ] Sub parsers
   - [x] Basic infix and prefix stuff
   - [ ] For, if etc (macros?)
-- [ ] Abstract syntax tree
+- [x] Abstract syntax tree
 - [ ] Environment
+  - [x] Basic stuff
+  - [ ] Ability to load multiple files in a single program
 - [ ] Built in library
 
 Folder structure
@@ -61,6 +63,18 @@ Building
     make
 
 The executable is now in `build/cmd/tila`
+
+Running
+-------
+
+    cd build/cmd
+    ./tila [filename]
+
+You can find example programs in `examples/`.
+
+    ./tila ../../examples/math.tila
+
+Will print the tokens, the abstract syntax tree and the results of the file.
 
 Testing
 -------
