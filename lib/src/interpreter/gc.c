@@ -3,19 +3,13 @@
 struct GC *GC_new() {
     struct GC *gc = malloc(sizeof(struct GC));
     gc->first_node = NULL;
-    gc->max_threshhold = 1000;
+    gc->max_threshhold = 100;
     gc->threshhold = gc->max_threshhold;
     gc->env = NULL;
     return gc;
 }
 
 void GC_add(struct GC *gc, struct Node *node) {
-    node->gc = gc;
-    node->marked = false;
-    node->next = gc->first_node;
-    gc->first_node = node;
-    gc->threshhold--;
-
     if(gc->threshhold <= 0) {
         if(gc->env != NULL) {
             Environment_mark(gc->env);
@@ -23,9 +17,16 @@ void GC_add(struct GC *gc, struct Node *node) {
         }
         gc->threshhold = gc->max_threshhold;
     }
+
+    node->gc = gc;
+    node->marked = false;
+    node->next = gc->first_node;
+    gc->first_node = node;
+    gc->threshhold--;
 }
 
 void GC_sweep(struct GC *gc) {
+    DEBUG("GC Sweep");
     struct Node *node = gc->first_node;
     while(node != NULL) {
         if(node->marked) {

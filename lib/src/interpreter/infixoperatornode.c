@@ -50,21 +50,23 @@ struct Node *InfixOperatorNode_get_value(struct Node *node,
             nval = (lval != rval);
             break;
         case T_LT:
-            nval = (nval < rval);
+            nval = (lval < rval);
             break;
         case T_LTOE:
-            nval = (nval <= rval);
+            nval = (lval <= rval);
             break;
         case T_GT:
-            nval = (nval > rval);
+            nval = (lval > rval);
             break;
         case T_GTOE:
-            nval = (nval >= rval);
+            nval = (lval >= rval);
             break;
         default: // This should never be reached
+            ASSERT(1, "Unknown token type met in infix operator node");
             return NULL;
         }
         return NumberNode_new(NULL, nval, node->gc);
     }
+    ASSERT(1, "Unknown data types for infix operator");
     return NULL;
 }

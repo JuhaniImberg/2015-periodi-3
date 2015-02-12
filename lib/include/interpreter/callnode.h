@@ -15,4 +15,6 @@ struct Node *CallNode_new(struct Node *what, struct Token *token,
 
 void CallNode_repr(struct Node *, struct Environment *);
 
+struct Node *CallNode_get_value(struct Node *, struct Environment *);
+
 #endif

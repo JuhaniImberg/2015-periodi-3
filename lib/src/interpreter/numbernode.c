@@ -13,7 +13,8 @@ struct Node *NumberNode_new(struct Token *token, long long value,
     return node;
 }
 
-void NumberNode_repr(struct Node *node, struct Environment *env) {
+void NumberNode_repr(struct Node *node,
+                     struct Environment *env __attribute__((unused))) {
     printf("%lld", *(long long *)node->data);
 }
 

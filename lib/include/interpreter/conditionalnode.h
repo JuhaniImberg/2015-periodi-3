@@ -9,4 +9,6 @@ struct Node *ConditionalNode_new(struct Node *condition, struct Token *token,
 
 void ConditionalNode_repr(struct Node *, struct Environment *);
 
+struct Node *ConditionalNode_get_value(struct Node *, struct Environment *);
+
 #endif

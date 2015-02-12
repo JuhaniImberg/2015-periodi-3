@@ -39,7 +39,6 @@ void Node_mark_void_pointer(void *node) {
 
 void Node_delete(struct Node *node) {
     if(node->vector != NULL) {
-        Vector_each(node->vector, Node_delete_void_pointer);
         Vector_delete(node->vector);
     }
     if(node->data != NULL) {

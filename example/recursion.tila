@@ -1,0 +1,7 @@
+recurse = (i, s) ->
+  i <= 0 ?
+    s
+  i > 0 ?
+    recurse(i - 1, s * 3)
+
+recurse(2500, 1)

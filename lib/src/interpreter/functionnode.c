@@ -6,6 +6,7 @@ struct Node *FunctionNode_new(struct Vector *body, struct Node *args,
     node->left = args;
     node->vector = body;
     node->repr = FunctionNode_repr;
+    node->get_value = FunctionNode_get_value;
     return node;
 }
 
@@ -28,19 +29,21 @@ struct Node *FunctionNode_call(struct Node *node,
     for(size_t i = 0; i < len; i++) {
         struct Node *identifier = Vector_get(args_identifiers, i);
         struct Node *val = Vector_get(args_vals, i);
+        val = val->get_value(val, env);
         Environment_put(sub,
                         Token_content(identifier->start, env->src),
                         val);
     }
     len = Vector_size(node->vector);
+    struct Node *res = NULL;
     for(size_t i = 0; i < len; i++) {
         struct Node *nd = Vector_get(node->vector, i);
         if(nd != NULL) {
-            nd->get_value(nd, sub);
+            res = nd->get_value(nd, sub);
         }
     }
     Environment_delete(sub);
-    return NULL;
+    return res;
 }
 
 struct Node *FunctionNode_get_value(struct Node *node,
