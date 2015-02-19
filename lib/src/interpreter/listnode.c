@@ -5,6 +5,7 @@ struct Node *ListNode_new(struct Vector *nodes, struct Token *token,
     struct Node *node = Node_new(gc, token, N_LIST);
     node->vector = nodes;
     node->repr = ListNode_repr;
+    node->get_value = ListNode_get_value;
     return node;
 }
 

@@ -24,17 +24,36 @@ struct Environment {
  */
 struct Environment *Environment_new(struct GC *gc, char *src);
 
+/**
+ * @brief Creates a new child environment, for limiting the leakage of variable
+ *        names to a outer scope
+ */
 struct Environment *Environment_new_sub(struct Environment *env);
 
+/**
+ * @brief Marks all of the reachable nodes as safe from the next GC sweep
+ */
 void Environment_mark(struct Environment *env);
 
+/**
+ * @brief Returns the node that is associated with the key. Checks the
+ *        environments parents recursively.
+ * @param key The key that gets checked for
+ * @returns The found node or NULL
+ */
 struct Node *Environment_get(struct Environment *env,
                              char *key);
 
+/**
+ * @brief Associates a value with the key
+ */
 void Environment_put(struct Environment *env,
                      char *key,
                      struct Node *value);
 
+/**
+ * @brief Does the environment contain the given key
+ */
 bool Environment_contains(struct Environment *env,
                           char *key);
 
