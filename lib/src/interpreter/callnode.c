@@ -18,8 +18,9 @@ void CallNode_repr(struct Node *node, struct Environment *env) {
     printf(")");
 }
 
-struct Node *CallNode_get_value(struct Node *node, struct Environment *env) {
-    struct Node *fn = node->left->get_value(node->left, env);
+void CallNode_get_value(struct Node *node, struct Environment *env) {
+    node->left->get_value(node->left, env);
+    struct Node *fn = GC_pop(node->gc);
     ASSERT(fn->type != N_FUNCTION, "Not a function.");
-    return FunctionNode_call(fn, env, node->vector);
+    FunctionNode_call(fn, env, node->vector);
 }

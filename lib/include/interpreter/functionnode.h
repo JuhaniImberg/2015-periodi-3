@@ -15,9 +15,9 @@ struct Node *FunctionNode_new(struct Vector *body, struct Node *args,
 
 void FunctionNode_repr(struct Node *, struct Environment *);
 
-struct Node *FunctioNode_call(struct Node *, struct Environment *,
-                              struct Vector *);
+void FunctioNode_call(struct Node *, struct Environment *,
+                      struct Vector *);
 
-struct Node *FunctionNode_get_value(struct Node *, struct Environment *);
+void FunctionNode_get_value(struct Node *, struct Environment *);
 
 #endif

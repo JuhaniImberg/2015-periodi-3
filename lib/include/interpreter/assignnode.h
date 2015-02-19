@@ -12,9 +12,15 @@
 struct Node *AssignNode_new(struct Node *towhat, struct Token *token,
                             struct Node *what, struct GC *gc);
 
+/**
+ * @brief Prints a representation of the assign node
+ */
 void AssignNode_repr(struct Node *, struct Environment *);
 
-struct Node *AssignNode_get_value(struct Node *, struct Environment *);
+/**
+ * @brief Assigns the nodes value to the identifier in the given environment
+ */
+void AssignNode_get_value(struct Node *, struct Environment *);
 
 
 #endif

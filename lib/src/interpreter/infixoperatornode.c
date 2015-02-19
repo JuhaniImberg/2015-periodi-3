@@ -19,11 +19,14 @@ void InfixOperatorNode_repr(struct Node *node, struct Environment *env) {
     printf(")");
 }
 
-struct Node *InfixOperatorNode_get_value(struct Node *node,
-                                         struct Environment *env) {
-    struct Node *left = node->left->get_value(node->left, env);
-    struct Node *right = node->right->get_value(node->right, env);
-    if(left->type == N_NUMBER && right->type == N_NUMBER) {
+void InfixOperatorNode_get_value(struct Node *node,
+                                 struct Environment *env) {
+    node->left->get_value(node->left, env);
+    struct Node *left = GC_pop(node->gc);
+    node->right->get_value(node->right, env);
+    struct Node *right = GC_pop(node->gc);
+    if(left != NULL && right != NULL &&
+       left->type == N_NUMBER && right->type == N_NUMBER) {
         long long lval = *(long long *)left->data;
         long long rval = *(long long *)right->data;
         long long nval = 0;
@@ -63,10 +66,9 @@ struct Node *InfixOperatorNode_get_value(struct Node *node,
             break;
         default: // This should never be reached
             ASSERT(1, "Unknown token type met in infix operator node");
-            return NULL;
         }
-        return NumberNode_new(NULL, nval, node->gc);
+        GC_push(node->gc, NumberNode_new(NULL, nval, node->gc));
+        return;
     }
     ASSERT(1, "Unknown data types for infix operator");
-    return NULL;
 }

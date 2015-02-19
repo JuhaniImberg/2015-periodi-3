@@ -13,7 +13,7 @@ char *IdentifierNode_name(struct Node *node, struct Environment *env);
 
 void IdentifierNode_repr(struct Node *, struct Environment *);
 
-struct Node *IdentifierNode_get_value(struct Node *, struct Environment *);
+void IdentifierNode_get_value(struct Node *, struct Environment *);
 
 
 #endif

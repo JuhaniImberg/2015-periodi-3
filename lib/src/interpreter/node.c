@@ -45,6 +45,7 @@ void Node_delete(struct Node *node) {
         free(node->data);
     }
     free(node);
+    node = NULL;
 }
 
 void Node_delete_void_pointer(void *data) {

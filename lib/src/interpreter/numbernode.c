@@ -18,7 +18,7 @@ void NumberNode_repr(struct Node *node,
     printf("%lld", *(long long *)node->data);
 }
 
-struct Node *NumberNode_get_value(struct Node *node,
-                                  struct Environment *env __attribute__((unused))) {
-    return node;
+void NumberNode_get_value(struct Node *node,
+                          struct Environment *env __attribute__((unused))) {
+    GC_push(node->gc, node);
 }

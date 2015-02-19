@@ -15,11 +15,11 @@ void AssignNode_repr(struct Node *node, struct Environment *env) {
     InfixOperatorNode_repr(node, env);
 }
 
-struct Node *AssignNode_get_value(struct Node *node,
+void AssignNode_get_value(struct Node *node,
                                   struct Environment *env) {
-    struct Node *val = node->right->get_value(node->right, env);
+    node->right->get_value(node->right, env);
+    struct Node *val = GC_pop(node->gc);
     Environment_put(env,
                     Token_content(node->left->start, env->src),
                     val);
-    return val;
 }

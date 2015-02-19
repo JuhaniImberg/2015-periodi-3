@@ -11,6 +11,9 @@
 struct  Node *ArgumentNode_new(struct Vector *vector, struct Token *token,
                                struct GC *gc);
 
+/**
+ * @brief Prints a representation of the argument node
+ */
 void ArgumentNode_repr(struct Node *, struct Environment *);
 
 #endif

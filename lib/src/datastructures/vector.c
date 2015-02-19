@@ -101,6 +101,8 @@ void Vector_each(struct Vector *vector, void (*cb)(void *)) {
 }
 
 void Vector_delete(struct Vector *vector) {
+    DEBUG("asd");
     free(vector->data);
     free(vector);
+    vector = NULL;
 }

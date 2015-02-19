@@ -13,8 +13,15 @@
 struct Node *CallNode_new(struct Node *what, struct Token *token,
                           struct Vector *args, struct GC *gc);
 
+/**
+ * @brief Prints the representation of the function call
+ */
 void CallNode_repr(struct Node *, struct Environment *);
 
-struct Node *CallNode_get_value(struct Node *, struct Environment *);
+/**
+ * @brief Executes the calling of the function this call points to with the
+ *        arguments given
+ */
+void CallNode_get_value(struct Node *, struct Environment *);
 
 #endif

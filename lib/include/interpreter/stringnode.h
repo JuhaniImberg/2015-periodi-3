@@ -11,7 +11,7 @@ struct Node *StringNode_new(struct Token *token, struct GC *gc);
 
 void StringNode_repr(struct Node *, struct Environment *);
 
-struct Node *StringNode_get_value(struct Node *node,
-                                  struct Environment *env);
+void StringNode_get_value(struct Node *node,
+                          struct Environment *env);
 
 #endif

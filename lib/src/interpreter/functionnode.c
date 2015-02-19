@@ -18,18 +18,20 @@ void FunctionNode_repr(struct Node *node, struct Environment *env) {
     printf(")");
 }
 
-struct Node *FunctionNode_call(struct Node *node,
-                               struct Environment *env,
-                               struct Vector *args_vals) {
+void FunctionNode_call(struct Node *node,
+                       struct Environment *env,
+                       struct Vector *args_vals) {
     struct Environment *sub = Environment_new_sub(env);
     struct Vector *args_identifiers = node->left->vector;
     ASSERT(Vector_size(args_identifiers) != Vector_size(args_vals),
            "Function arguments length mismatch");
+    FunctionNode_get_value(node, env);
     size_t len = Vector_size(args_vals);
     for(size_t i = 0; i < len; i++) {
         struct Node *identifier = Vector_get(args_identifiers, i);
         struct Node *val = Vector_get(args_vals, i);
-        val = val->get_value(val, env);
+        val->get_value(val, env);
+        val = GC_pop(node->gc);
         Environment_put(sub,
                         Token_content(identifier->start, env->src),
                         val);
@@ -39,14 +41,16 @@ struct Node *FunctionNode_call(struct Node *node,
     for(size_t i = 0; i < len; i++) {
         struct Node *nd = Vector_get(node->vector, i);
         if(nd != NULL) {
-            res = nd->get_value(nd, sub);
+            nd->get_value(nd, sub);
+            res = GC_pop(node->gc);
         }
     }
     Environment_delete(sub);
-    return res;
+    GC_pop(node->gc);
+    GC_push(node->gc, res);
 }
 
-struct Node *FunctionNode_get_value(struct Node *node,
-                                    struct Environment *env __attribute__((unused))) {
-    return node;
+void FunctionNode_get_value(struct Node *node,
+                            struct Environment *env __attribute__((unused))) {
+    GC_push(node->gc, node);
 }

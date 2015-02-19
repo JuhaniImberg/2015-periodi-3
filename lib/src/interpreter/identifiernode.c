@@ -18,7 +18,7 @@ void IdentifierNode_repr(struct Node *node, struct Environment *env) {
     printf("%s", content);
 }
 
-struct Node *IdentifierNode_get_value(struct Node *node,
-                                      struct Environment *env) {
-    return Environment_get(env, Token_content(node->start, env->src));
+void IdentifierNode_get_value(struct Node *node,
+                              struct Environment *env) {
+    GC_push(node->gc, Environment_get(env, Token_content(node->start, env->src)));
 }

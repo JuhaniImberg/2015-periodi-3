@@ -44,13 +44,16 @@ int main(int argc, char **argv) {
 
         // While there are things to parse
         while(!Parser_done(parser)) {
+            gc->enabled = false;
             struct Node *node = Parser_parse_node(parser, 0);
             if(node != NULL) {
                 // Call the repr function of each node that we got
                 node->repr(node, env);
                 printf("\n");
                 if(node->get_value != NULL) {
-                    struct Node *res = node->get_value(node, env);
+                    gc->enabled = true;
+                    node->get_value(node, env);
+                    struct Node *res = GC_pop(gc);
                     if(res != NULL) {
                         res->repr(res, env);
                     } else {

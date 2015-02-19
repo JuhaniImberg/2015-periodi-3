@@ -13,7 +13,7 @@ struct Node *NumberNode_new(struct Token *token, long long value,
 
 void NumberNode_repr(struct Node *, struct Environment *);
 
-struct Node *NumberNode_get_value(struct Node *, struct Environment *);
+void NumberNode_get_value(struct Node *, struct Environment *);
 
 
 #endif

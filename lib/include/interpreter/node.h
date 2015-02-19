@@ -32,6 +32,7 @@ enum NodeTypeEnum {
  * @field data Used to store arbitrary data in the node
  * @field get_value This method will be used for getting the nodes current value
  *                  in a given environment
+ * @field repr This function is used to print a representation of the
  * @field marked Has the node been marked as safe from the GC for this round
  * @field next The next node that has been allocated
  */
@@ -42,10 +43,11 @@ struct Node {
     struct Node *right;
     struct Vector *vector;
     void *data;
-    struct Node *(*get_value)(struct Node *, struct Environment *environment);
+    void (*get_value)(struct Node *, struct Environment *environment);
     void (*repr)(struct Node *, struct Environment *environment);
 
     struct GC *gc;
+    bool immortal;
     bool marked;
     struct Node *next;
 };
@@ -60,6 +62,9 @@ struct Node *Node_new(struct GC *gc,
                       struct Token *start,
                       enum NodeTypeEnum type);
 
+/**
+ * @brief Marks the node to be safe for the next round of garbage collection
+ */
 void Node_mark(struct Node *node);
 
 void Node_mark_void_pointer(void *node);

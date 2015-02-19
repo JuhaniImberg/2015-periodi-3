@@ -12,7 +12,7 @@ void StringNode_repr(struct Node *node, struct Environment *env) {
     printf("%s", content);
 }
 
-struct Node *StringNode_get_value(struct Node *node,
-                                  struct Environment *env __attribute__((unused))) {
-    return node;
+void StringNode_get_value(struct Node *node,
+                          struct Environment *env __attribute__((unused))) {
+    GC_push(node->gc, node);
 }

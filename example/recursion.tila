@@ -4,4 +4,4 @@ recurse = (i, s) ->
   i > 0 ?
     recurse(i - 1, s * 3)
 
-recurse(2500, 1)
+recurse(10, 1)
