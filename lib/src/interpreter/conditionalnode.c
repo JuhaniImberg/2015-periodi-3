@@ -1,11 +1,13 @@
 #include "tila.h"
 
 struct Node *ConditionalNode_new(struct Node *condition, struct Token *token,
-                                 struct Vector *body, struct GC *gc) {
+                                 struct Vector *body, struct Node *next,
+                                 struct GC *gc) {
     struct Node *node = Node_new(gc, token, N_CONDITIONAL);
     node->repr = ConditionalNode_repr;
     node->get_value = ConditionalNode_get_value;
     node->left = condition;
+    node->right = next;
     node->vector = body;
     return node;
 }
@@ -39,7 +41,10 @@ void ConditionalNode_get_value(struct Node *node,
         Environment_delete(sub);
         GC_push(node->gc, res);
     } else {
-        GC_push(node->gc, NULL);
+        if(node->right == NULL) {
+            GC_push(node->gc, NULL);
+        } else {
+            ConditionalNode_get_value(node->right, env);
+        }
     }
-    return;
 }

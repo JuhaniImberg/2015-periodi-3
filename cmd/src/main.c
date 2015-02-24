@@ -51,7 +51,7 @@ int main(int argc, char **argv) {
                 node->repr(node, env);
                 printf("\n");
                 if(node->get_value != NULL) {
-                    gc->enabled = true;
+                    // gc->enabled = true;
                     node->get_value(node, env);
                     struct Node *res = GC_pop(gc);
                     if(res != NULL) {

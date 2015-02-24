@@ -120,5 +120,30 @@ struct Node *conditional_parser(struct Parser *parser,
     }
     Parser_decrease_indentation(parser);
 
-    return ConditionalNode_new(condition, token, body, parser->gc);
+    struct Node *next = NULL;
+
+    while(Parser_match(parser, T_EOL) || Parser_match(parser, T_INDENT)) {
+
+    }
+
+    if(Parser_match(parser, T_NOTCOND)) {
+        struct Vector *else_body = Vector_new();
+        node = Parser_parse_node(parser, 0);
+        if(node != NULL) {
+            Vector_push(else_body, node);
+        } else {
+            our_indent = Parser_increase_indentation(parser);
+            while(Parser_has_indentation(parser, our_indent)) {
+                node = Parser_parse_node(parser, 0);
+                if(node != NULL) {
+                    Vector_push(else_body, node);
+                }
+            }
+        }
+        next = ConditionalNode_new(NumberNode_new(NULL, 1, parser->gc),
+                                   token, else_body, NULL, parser->gc);
+        Parser_decrease_indentation(parser);
+    }
+
+    return ConditionalNode_new(condition, token, body, next, parser->gc);
 }

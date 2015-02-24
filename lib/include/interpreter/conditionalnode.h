@@ -9,9 +9,11 @@
  *                  evaluated
  * @param body The body of the conditional node, the things that get executed if
  *             the conditional is true
+ * @param next Next conditional to be considered if this one is not true
  */
 struct Node *ConditionalNode_new(struct Node *condition, struct Token *token,
-                                 struct Vector *body, struct GC *gc);
+                                 struct Vector *body, struct Node *next,
+                                 struct GC *gc);
 
 /**
  * @brief Prints a representation of the conditional
