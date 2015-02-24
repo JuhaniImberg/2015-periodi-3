@@ -1,9 +1,6 @@
 recurse = (i, s) ->
   "Recursion state i: {i} s: {s}"
-  i == 0 ?
-    s
-  !?
-    recurse(i - 1, s + i)
+  i == 0 ? s !? recurse(i - 1, s + i)
 
 res = recurse(10, 0)
 "Recursion result sum [0..10]: {res}"

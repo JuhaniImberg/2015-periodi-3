@@ -139,10 +139,10 @@ struct Node *conditional_parser(struct Parser *parser,
                     Vector_push(else_body, node);
                 }
             }
+            Parser_decrease_indentation(parser);
         }
         next = ConditionalNode_new(NumberNode_new(NULL, 1, parser->gc),
                                    token, else_body, NULL, parser->gc);
-        Parser_decrease_indentation(parser);
     }
 
     return ConditionalNode_new(condition, token, body, next, parser->gc);
