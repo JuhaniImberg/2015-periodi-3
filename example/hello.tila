@@ -1,5 +1,7 @@
 # this is comment
 
 main = (args) ->
-  print("hello world")
-  print("world of hellos")
+  "hello world"
+  "world of hellos"
+
+main([])

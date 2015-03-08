@@ -23,6 +23,14 @@ void ListNode_repr(struct Node *node, struct Environment *env) {
 }
 
 void ListNode_get_value(struct Node *node,
-                        struct Environment *env __attribute__((unused))) {
-    GC_push(node->gc, node);
+                        struct Environment *env) {
+    struct Vector *new = Vector_new();
+    for(size_t i = 0; i < node->vector->size; i++) {
+        struct Node *sub = Vector_get(node->vector, i);
+        sub->get_value(sub, env);
+        sub = GC_pop(node->gc);
+        Vector_push(new, sub);
+    }
+    struct Node *result = ListNode_new(new, node->start, node->gc);
+    GC_push(node->gc, result);
 }

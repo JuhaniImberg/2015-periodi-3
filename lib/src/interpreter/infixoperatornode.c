@@ -66,6 +66,12 @@ void InfixOperatorNode_get_value(struct Node *node,
         case T_GTOE:
             nval = (lval >= rval);
             break;
+        case T_AND:
+            nval = (lval && rval);
+            break;
+        case T_OR:
+            nval = (lval || rval);
+            break;
         default: // This should never be reached
             ASSERT(1, "Unknown token type met in infix operator node");
         }

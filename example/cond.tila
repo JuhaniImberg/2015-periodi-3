@@ -1,0 +1,13 @@
+test = () ->
+  1 && 1 ? "One and one"
+  1 && 0 ? "Nope"
+  1 || 0 ? "One or zero"
+  0 || 0 ? "Nope"
+  0 == 0 ? "Zero is zero"
+  1      ? "One"
+  0 == 1 ? "Nope"
+  1 > 0  ? "One is greater than zero"
+  2 != 0 ? "Two is not zero"
+
+
+test()

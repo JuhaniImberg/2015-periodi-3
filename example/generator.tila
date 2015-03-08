@@ -1,0 +1,11 @@
+generate = (i, n) ->
+  i < n ?
+    [i] + generate(i + 1, n)
+  !?
+    [i]
+
+run = () ->
+  a = generate(0, 5)
+  "generate(0, 5) = {a}"
+
+run()
